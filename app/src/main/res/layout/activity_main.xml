@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context="com.example.user.lvndb.activities.MainActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <Button
+            android:id="@+id/bvLeague"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textColor="#fff"
+            android:background="@android:color/darker_gray"
+            android:text="Show List"
+            tools:layout_editor_absoluteX="228dp"
+            tools:layout_editor_absoluteY="113dp" />
+
+        <Button
+            android:id="@+id/bvRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:layout_margin="5dp"
+            android:background="@android:color/darker_gray"
+            android:text="Record"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="113dp" />
+        <Button
+            android:id="@+id/btnNoteAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Note"
+            android:onClick="addNote"/>
+        <Button
+            android:id="@+id/btnNoteShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Note"
+            android:onClick="showNote"/>
+
+        <Button
+            android:id="@+id/btnAppointmentAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Appointment"
+            android:onClick="addAppointment"/>
+
+        <Button
+            android:id="@+id/btnAppointmentShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Appointment"
+            android:onClick="appointment"/>
+
+        <Button
+            android:id="@+id/btnFindDr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Doctors" />
+
+        <Button
+            android:id="@+id/btnFindHospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Hospital" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

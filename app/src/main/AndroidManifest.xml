@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.user.lvndb">
+
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/team"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/team"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.AddPill" />
+        <activity android:name=".activities.ShowPill" />
+
+        <receiver
+            android:name=".classes.AlarmReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activities.AlarmActivity" />
+        <activity android:name=".activities.EditAlarm" />
+        <activity android:name=".activities.AddAppointment" />
+        <activity android:name=".activities.ShowAppointment" />
+        <activity android:name=".activities.EditAppointment" />
+        <activity android:name=".activities.AddNote" />
+        <activity android:name=".activities.ShowNote"></activity>
+    </application>
+
+</manifest>
