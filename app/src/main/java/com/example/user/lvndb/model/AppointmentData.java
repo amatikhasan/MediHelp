@@ -4,7 +4,7 @@ package com.example.user.lvndb.model;
  * Created by User on 3/21/2018.
  */
 
-public class DataAppointment {
+public class AppointmentData {
     private String doctorName;
     private String location;
     private String date;
@@ -13,7 +13,7 @@ public class DataAppointment {
     private String active;
     private int code;
 
-    public DataAppointment(String doctorName, String location, String date, String time, String note,String active) {
+    public AppointmentData(String doctorName, String location, String date, String time, String note, String active) {
         this.doctorName = doctorName;
         this.location = location;
         this.date = date;
@@ -21,7 +21,7 @@ public class DataAppointment {
         this.note = note;
         this.active=active;
     }
-    public DataAppointment(int code,String doctorName, String location, String date, String time, String note,String active) {
+    public AppointmentData(int code, String doctorName, String location, String date, String time, String note, String active) {
         this.doctorName = doctorName;
         this.location = location;
         this.date = date;

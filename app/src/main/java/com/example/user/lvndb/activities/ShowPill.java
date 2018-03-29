@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.user.lvndb.R;
 import com.example.user.lvndb.db.DBHelper;
-import com.example.user.lvndb.model.DataSchedule;
+import com.example.user.lvndb.model.PillData;
 import com.example.user.lvndb.adapter.PillAdapter;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ShowPill extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<DataSchedule> obj = new ArrayList<>();
+    ArrayList<PillData> obj = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

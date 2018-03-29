@@ -31,12 +31,14 @@
         </receiver>
 
         <activity android:name=".activities.AlarmActivity" />
-        <activity android:name=".activities.EditAlarm" />
+        <activity android:name=".activities.EditPill" />
         <activity android:name=".activities.AddAppointment" />
         <activity android:name=".activities.ShowAppointment" />
         <activity android:name=".activities.EditAppointment" />
         <activity android:name=".activities.AddNote" />
-        <activity android:name=".activities.ShowNote"></activity>
+        <activity android:name=".activities.ShowNote" />
+        <activity android:name=".activities.FindDoctor" />
+        <activity android:name=".activities.ShowDoctor"></activity>
     </application>
 
 </manifest>

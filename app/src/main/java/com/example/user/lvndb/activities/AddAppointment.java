@@ -6,7 +6,10 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,9 +19,8 @@ import android.widget.Toast;
 
 import com.example.user.lvndb.R;
 import com.example.user.lvndb.classes.AlarmHandler;
-import com.example.user.lvndb.db.DBAppointment;
 import com.example.user.lvndb.db.DBHelper;
-import com.example.user.lvndb.model.DataAppointment;
+import com.example.user.lvndb.model.AppointmentData;
 
 import java.util.Calendar;
 
@@ -27,23 +29,29 @@ public class AddAppointment extends AppCompatActivity {
     Button btnInsert, btnDate, btnTime;
     private static final int Date_id = 0;
     private static final int Time_id = 1;
-    String date,time, active;
+    String date,newDate, time, active;
     Calendar calendar;
     int mYear, mMonth, mDay, mHour, mMinute;
-
+    DBHelper dbHelper;
+    Toolbar toolbar;
     public static long dateInMilis;
     public static long timeInMilis;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment);
 
-        final DBHelper dbHelper = new DBHelper(getApplicationContext());
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        dbHelper = new DBHelper(getApplicationContext());
 
         etDoctor = (EditText) findViewById(R.id.etAppointmentDoctor);
         etLocation = (EditText) findViewById(R.id.etAppointmentLocation);
         etNote = (EditText) findViewById(R.id.etAppointmentNote);
-        btnInsert = (Button) findViewById(R.id.btnAddAppointment);
+        //         btnInsert = (Button) findViewById(R.id.btnAddAppointment);
         btnDate = (Button) findViewById(R.id.btnAppointmentDate);
         btnTime = findViewById(R.id.btnAppointmentTime);
 
@@ -56,7 +64,7 @@ public class AddAppointment extends AppCompatActivity {
             }
         });
 
-
+/*
         //AddPill Button Click
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +76,7 @@ public class AddAppointment extends AppCompatActivity {
                 int code;
 
                 //AddPill into Database
-                DataAppointment da = new DataAppointment(doctorName,location,date,time,note,active);
+                AppointmentData da = new AppointmentData(doctorName,location,date,time,note,active);
                 Log.d("Appoint Data Check", doctorName + " " + location +" "+ date + " " + time+" "+active);
                 code =dbHelper.insertAppointmentData(da);
                 Toast.makeText(getApplicationContext(), "Appointment "+code+" inserted for " + time, Toast.LENGTH_SHORT).show();
@@ -83,6 +91,8 @@ public class AddAppointment extends AppCompatActivity {
                 startActivity(intent);
             }
     });
+    */
+
     }
 
     public void timeDialogue(View view) {
@@ -128,15 +138,14 @@ public class AddAppointment extends AppCompatActivity {
             mYear = year;
             mMonth = month;
             mDay = day;
-            calendar.set(mYear, mMonth, mDay, mHour, mMinute,0);
+            calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
             dateInMilis = calendar.getTimeInMillis();
-            date = String.valueOf(mDay) + "-" + String.valueOf(mMonth)
-                    + "-" + String.valueOf(mYear);
-            String dateForBtn=String.valueOf(mDay) + "-" + String.valueOf(mMonth+1)
-                    + "-" + String.valueOf(mYear);
-            btnDate.setText(dateForBtn);
-            Log.d("Date Check", date);
-            Log.d("Date milis Check", String.valueOf(dateInMilis));
+            date = String.valueOf(mDay) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mYear);
+            //dialogue returns month number less 1 but gives right milis
+            newDate= String.valueOf(mDay) + "-" + String.valueOf(mMonth+1) + "-" + String.valueOf(mYear);
+            btnDate.setText(newDate);
+            Log.d("new Date Check", date);
+            Log.d("new Date milis Check", String.valueOf(dateInMilis));
         }
     };
 
@@ -147,27 +156,72 @@ public class AddAppointment extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hour, int minute) {
             // store the data in one string and set it to text
             calendar = Calendar.getInstance();
-                    mHour = hour;
-                    mMinute = minute;
+            mHour = hour;
+            mMinute = minute;
 
-                    calendar.set(mYear, mMonth, mDay, mHour, mMinute,0);
+            calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
 
-                    timeInMilis= calendar.getTimeInMillis();
+            timeInMilis = calendar.getTimeInMillis();
 
-                    if (minute < 10) {
-                        time = String.valueOf(hour) + ":" + "0" + String.valueOf(minute);
-                    } else {
-                        time = String.valueOf(hour) + ":" + String.valueOf(minute);
-                    }
+            if (minute < 10) {
+                time = String.valueOf(hour) + ":" + "0" + String.valueOf(minute);
+            } else {
+                time = String.valueOf(hour) + ":" + String.valueOf(minute);
+            }
 
-                    btnTime.setText(time);
+            btnTime.setText(time);
 
             //String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
             //set_time.setText(time1);
-            Log.d("Time milis Check", String.valueOf(timeInMilis));
+            Log.d("new Time milis Check", String.valueOf(timeInMilis));
             Log.d("Date Check", time);
         }
     };
 
+    //For Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //for toolbar arrow
+            case android.R.id.home:
+                Toast.makeText(getApplicationContext(), "back Button Clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menuSave:
+                insertAppointment();
+                //Toast.makeText(getApplicationContext(), "Save Button Clicked", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return true;
+    }
+
+    //method for adding appointment
+    public void insertAppointment() {
+        String doctorName = etDoctor.getText().toString();
+        String location = etLocation.getText().toString();
+        String note = etNote.getText().toString();
+        active = "true";
+        int code;
+
+        //AddPill into Database
+        AppointmentData da = new AppointmentData(doctorName, location, newDate, time, note, active);
+        Log.d("Appoint Data Check", doctorName + " " + location + " " + date + " " + time + " " + active);
+        code = dbHelper.insertAppointmentData(da);
+        Toast.makeText(getApplicationContext(), "Appointment " + code + " inserted for " + time, Toast.LENGTH_SHORT).show();
+        Log.d("Appoint Code Check", String.valueOf(code));
+
+        //Trigger Alarm
+        AlarmHandler alarmHandler = new AlarmHandler();
+        alarmHandler.startAppointmentAlarm(AddAppointment.this, doctorName, timeInMilis, (code + 10000));
+        Log.d("Code Check for alarm", String.valueOf(code + 10000));
+        Log.d("Time for alarm", String.valueOf(timeInMilis));
+        Intent intent = new Intent(AddAppointment.this, ShowAppointment.class);
+        startActivity(intent);
+    }
 }

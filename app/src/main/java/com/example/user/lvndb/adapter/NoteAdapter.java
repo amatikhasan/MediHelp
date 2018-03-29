@@ -8,14 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.lvndb.R;
 import com.example.user.lvndb.activities.AddNote;
-import com.example.user.lvndb.activities.EditAppointment;
-import com.example.user.lvndb.model.DataAppointment;
-import com.example.user.lvndb.model.DataNote;
+import com.example.user.lvndb.model.NoteData;
 
 import java.util.ArrayList;
 
@@ -27,9 +24,9 @@ import static android.content.ContentValues.TAG;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     Context contex;
-    ArrayList<DataNote> data;
+    ArrayList<NoteData> data;
 
-    public NoteAdapter(Context contex, ArrayList<DataNote> data) {
+    public NoteAdapter(Context contex, ArrayList<NoteData> data) {
         this.contex = contex;
         this.data = data;
     }
@@ -43,7 +40,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(NoteAdapter.ViewHolder holder, int position) {
-        final DataNote obj = data.get(position);
+        final NoteData obj = data.get(position);
 
         holder.title.setText(obj.getTitle());
         holder.note.setText(obj.getNote());

@@ -8,14 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import com.example.user.lvndb.R;
 import com.example.user.lvndb.adapter.AppointmentAdapter;
 import com.example.user.lvndb.db.DBHelper;
-import com.example.user.lvndb.model.DataAppointment;
+import com.example.user.lvndb.model.AppointmentData;
 
 import java.util.ArrayList;
 
 public class ShowAppointment extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<DataAppointment> obj = new ArrayList<>();
+    ArrayList<AppointmentData> obj = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

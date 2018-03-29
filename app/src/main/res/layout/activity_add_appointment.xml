@@ -7,6 +7,8 @@
     tools:context="com.example.user.lvndb.activities.AddAppointment"
     tools:layout_editor_absoluteY="25dp">
 
+    <include layout="@layout/toolbar_layout"/>
+
     <EditText
         android:id="@+id/etAppointmentDoctor"
         android:layout_width="0dp"
@@ -19,7 +21,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <EditText
         android:id="@+id/etAppointmentLocation"
@@ -74,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAppointmentTime" />
-
+<!--
     <Button
         android:id="@+id/btnAddAppointment"
         android:layout_width="match_parent"
@@ -89,4 +91,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAppointmentNote" />
+        -->
 </android.support.constraint.ConstraintLayout>

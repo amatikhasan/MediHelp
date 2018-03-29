@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +22,7 @@ import android.widget.Toast;
 import com.example.user.lvndb.R;
 import com.example.user.lvndb.classes.AlarmHandler;
 import com.example.user.lvndb.db.DBHelper;
-import com.example.user.lvndb.model.DataSchedule;
+import com.example.user.lvndb.model.PillData;
 
 import java.util.*;
 
@@ -38,22 +41,27 @@ public class AddPill extends AppCompatActivity {
     int timeBtnId;
     Calendar calendar;
     int mYear, mMonth, mDay, mHour, mMinute;
-
+    DBHelper dbHelper;
     public static long dateInMilis;
     public static long[] timeInMilis = new long[4];
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_alarm);
+        setContentView(R.layout.activity_add_pill);
 
-        final DBHelper dbHelper = new DBHelper(getApplicationContext());
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        dbHelper = new DBHelper(getApplicationContext());
 
         etPill = (EditText) findViewById(R.id.etPN);
         etQty = (EditText) findViewById(R.id.etQty);
         etUnit = (EditText) findViewById(R.id.etUnit);
         etDuration = (EditText) findViewById(R.id.etDuration);
-        insert = (Button) findViewById(R.id.Insert);
+        //insert = (Button) findViewById(R.id.Insert);
         btnDate = (Button) findViewById(R.id.btnStartDate);
         time1 = findViewById(R.id.time1);
         time2 = findViewById(R.id.time2);
@@ -131,6 +139,7 @@ public class AddPill extends AppCompatActivity {
             }
         });
 
+        /*
         //AddPill Button Click
         insert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +154,7 @@ public class AddPill extends AppCompatActivity {
 
                 //AddPill into Database
                 for (int i = 0; i < repeatNo; i++) {
-                    DataSchedule ds = new DataSchedule(pillName, qty, unit, duration, days, date, time[i], repeatNo, active);
+                    PillData ds = new PillData(pillName, qty, unit, duration, days, date, time[i], repeatNo, active);
                     Log.d("Data Check for pill", pillName + " " + qty + " " + unit + " " + duration + " " + days + " " + date + " " + repeatNo + " " + time[i]);
                     code[i] = dbHelper.insertPillData(ds);
                     Toast.makeText(getApplicationContext(), "Pill " + (i + 1) + " inserted for " + time[i], Toast.LENGTH_SHORT).show();
@@ -165,7 +174,7 @@ public class AddPill extends AppCompatActivity {
 
             }
         });
-
+*/
         //Date button click
         btnDate.setOnClickListener(new View.OnClickListener() {
 
@@ -225,13 +234,12 @@ public class AddPill extends AppCompatActivity {
             mYear = year;
             mMonth = month;
             mDay = day;
-            calendar.set(mYear, mMonth, mDay, mHour, mMinute,0);
+            calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
             dateInMilis = calendar.getTimeInMillis();
-            date = String.valueOf(mDay) + "-" + String.valueOf(mMonth)
+
+            date = String.valueOf(mDay) + "-" + String.valueOf(mMonth + 1)
                     + "-" + String.valueOf(mYear);
-            String dateForBtn=String.valueOf(mDay) + "-" + String.valueOf(mMonth+1)
-                    + "-" + String.valueOf(mYear);
-            btnDate.setText(dateForBtn);
+            btnDate.setText(date);
             Log.d("Date Check", date);
             Log.d("Date milis Check", String.valueOf(dateInMilis));
         }
@@ -249,7 +257,7 @@ public class AddPill extends AppCompatActivity {
                     mHour = hour;
                     mMinute = minute;
 
-                    calendar.set(mYear, mMonth, mDay, mHour, mMinute,0);
+                    calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
                     Log.d("timeInMilis length", String.valueOf(timeInMilis.length));
                     timeInMilis[0] = calendar.getTimeInMillis();
 
@@ -266,7 +274,7 @@ public class AddPill extends AppCompatActivity {
                     mHour = hour;
                     mMinute = minute;
 
-                    calendar.set(mYear, mMonth, mDay, mHour, mMinute,0);
+                    calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
                     timeInMilis[1] = calendar.getTimeInMillis();
 
                     if (minute < 10) {
@@ -292,4 +300,57 @@ public class AddPill extends AppCompatActivity {
             Log.d("Date Check", time[0] + " " + time[1] + " " + time[2] + " " + time[3]);
         }
     };
+
+    //For Action Bar menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //for toolbar arrow
+            case android.R.id.home:
+                Toast.makeText(getApplicationContext(), "back Button Clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menuSave:
+                addPill();
+                //Toast.makeText(getApplicationContext(), "Save Button Clicked", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return true;
+    }
+
+    public void addPill() {
+        String pillName = etPill.getText().toString();
+        int qty = Integer.parseInt(etQty.getText().toString());
+        String unit = etUnit.getText().toString();
+        int duration = Integer.valueOf(etDuration.getText().toString());
+        active = "true";
+        int[] code = new int[repeatNo];
+        //code = dbHelper.getPillCode();
+
+        //AddPill into Database
+        for (int i = 0; i < repeatNo; i++) {
+            PillData ds = new PillData(pillName, qty, unit, duration, days, date, time[i], repeatNo, active);
+            Log.d("Data Check for pill", pillName + " " + qty + " " + unit + " " + duration + " " + days + " " + date + " " + repeatNo + " " + time[i]);
+            code[i] = dbHelper.insertPillData(ds);
+            Toast.makeText(getApplicationContext(), "Pill " + (i + 1) + " inserted for " + time[i], Toast.LENGTH_SHORT).show();
+            Log.d("Code Check for pill", String.valueOf(code[i]));
+        }
+        Log.d("pill inserted", String.valueOf(code.length));
+        //Trigger Alarm
+        for (int i = 0; i < code.length; i++) {
+            AlarmHandler alarmHandler = new AlarmHandler();
+            alarmHandler.startAlarm(AddPill.this, pillName, timeInMilis[i], code[i]);
+            Log.d("Code Check for alarm", String.valueOf(code[i]));
+            Log.d("Time for alarm", "Pill:" + code[i] + " " + String.valueOf(timeInMilis[i]));
+
+            //Intent intent=new Intent(AddPill.this,ShowPill.class);
+            //startActivity(intent);
+        }
+    }
 }

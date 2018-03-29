@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.user.lvndb.R;
 import com.example.user.lvndb.activities.EditAppointment;
 import com.example.user.lvndb.model.AppointmentData;
+import com.example.user.lvndb.model.DoctorData;
 
 import java.util.ArrayList;
 
@@ -23,33 +24,32 @@ import static android.content.ContentValues.TAG;
  * Created by User on 3/21/2018.
  */
 
-public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.ViewHolder> {
+public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder> {
     Context contex;
-    ArrayList<AppointmentData> data;
+    ArrayList<DoctorData> data;
 
-    public AppointmentAdapter(Context contex, ArrayList<AppointmentData> data) {
+    public DoctorAdapter(Context contex, ArrayList<DoctorData> data) {
         this.contex = contex;
         this.data = data;
     }
 
 
     @Override
-    public AppointmentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DoctorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(contex);
-        View view = inflater.inflate(R.layout.appointment_card_layout, parent, false);
-        return new AppointmentAdapter.ViewHolder(view);
+        View view = inflater.inflate(R.layout.doctor_card_layout, parent, false);
+        return new DoctorAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AppointmentAdapter.ViewHolder holder, int position) {
-        final AppointmentData obj = data.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final DoctorData obj = data.get(position);
 
         holder.doctorName.setText(obj.getDoctorName());
         holder.location.setText(obj.getLocation());
-        holder.date.setText(obj.getDate());
-        holder.time.setText(obj.getTime());
         holder.iv.setImageResource(R.drawable.image);
 
+        /*
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +67,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 Log.d(TAG, obj.getCode()+" "+obj.getDoctorName());
             }
         });
-
+        */
     }
 
     @Override
@@ -79,19 +79,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
         TextView doctorName;
         TextView location;
-        TextView date;
-        TextView time;
         ImageView iv;
         CardView card;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            doctorName = itemView.findViewById(R.id.tvDoctorNAme_appointment);
-            location = itemView.findViewById(R.id.tvLocation_appointment);
-            date = itemView.findViewById(R.id.tvDate_appointment);
-            time = itemView.findViewById(R.id.tvTime_appointment);
+            doctorName = itemView.findViewById(R.id.tvDoctorNAme);
+            location = itemView.findViewById(R.id.tvDoctorLocation);
             iv = itemView.findViewById(R.id.ivT1);
-            card=itemView.findViewById(R.id.card_appointment);
+            card=itemView.findViewById(R.id.card_doctor);
         }
     }
 }

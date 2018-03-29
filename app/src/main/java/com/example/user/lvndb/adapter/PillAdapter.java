@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.lvndb.R;
-import com.example.user.lvndb.activities.EditAlarm;
-import com.example.user.lvndb.model.DataSchedule;
+import com.example.user.lvndb.activities.EditPill;
+import com.example.user.lvndb.model.PillData;
 
 import java.util.ArrayList;
 
@@ -25,9 +25,9 @@ import static android.content.ContentValues.TAG;
 
 public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
     Context contex;
-    ArrayList<DataSchedule> data;
+    ArrayList<PillData> data;
 
-    public PillAdapter(Context contex, ArrayList<DataSchedule> data) {
+    public PillAdapter(Context contex, ArrayList<PillData> data) {
         this.contex = contex;
         this.data = data;
     }
@@ -42,7 +42,7 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final DataSchedule obj = data.get(position);
+        final PillData obj = data.get(position);
 
         holder.pill.setText(obj.getPillName());
         holder.qty.setText(String.valueOf(obj.getQty()));
@@ -55,7 +55,7 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
             public void onClick(View view) {
                 Log.d(TAG, "Checking: "+obj.getCode()+" "+obj.getPillName());
                 Log.d(TAG, "Checking: "+contex);
-                Intent intent=new Intent(contex, EditAlarm.class);
+                Intent intent=new Intent(contex, EditPill.class);
                 intent.putExtra("pillName",obj.getPillName());
                 intent.putExtra("qty",obj.getQty());
                 intent.putExtra("unit",obj.getUnit());

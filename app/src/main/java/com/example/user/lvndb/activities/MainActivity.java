@@ -25,7 +25,7 @@ Button b1,b2;
                 AlarmHandler alarmHandler = new AlarmHandler();
                 //alarmHandler.startNextAlarm("napa");
 
-                //ArrayList<DataSchedule> data=new ArrayList<>();
+                //ArrayList<PillData> data=new ArrayList<>();
                 //DBHelper db=new DBHelper(getApplicationContext());
                 //data=db.getNextPill("Napa",0);
                 //db.getNextPill("Napa",0);
@@ -69,5 +69,13 @@ Button b1,b2;
         Intent intent=new Intent(this,ShowNote.class);
         startActivity(intent);
 
+    }
+    public void findDoctor(View view){
+        Intent intent=new Intent(this,FindDoctor.class);
+        startActivity(intent);
+    }
+    public void showDoctor(View view){
+        Intent intent=new Intent(this,ShowDoctor.class);
+        startActivity(intent);
     }
 }

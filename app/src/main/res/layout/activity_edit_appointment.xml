@@ -7,6 +7,8 @@
     tools:context="com.example.user.lvndb.activities.EditAppointment"
     tools:layout_editor_absoluteY="25dp">
 
+    <include layout="@layout/toolbar_layout"/>
+
     <EditText
         android:id="@+id/etEADoctor"
         android:layout_width="0dp"
@@ -19,7 +21,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <EditText
         android:id="@+id/etEALocation"
@@ -60,7 +62,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnEADate" />
-
     <EditText
         android:id="@+id/etEANote"
         android:layout_width="match_parent"
@@ -79,15 +80,16 @@
         android:id="@+id/swActiveAppointment"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:paddingLeft="10dp"
         android:text="On/Off"
-        app:layout_constraintBottom_toTopOf="@id/btnUpdateAppointment"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEANote" />
-
+        app:layout_constraintTop_toBottomOf="@id/etEANote"
+        app:layout_constraintVertical_bias="0.101" />
+<!--
     <Button
         android:id="@+id/btnUpdateAppointment"
         android:layout_width="match_parent"
@@ -116,4 +118,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnUpdateAppointment" />
+        -->
 </android.support.constraint.ConstraintLayout>

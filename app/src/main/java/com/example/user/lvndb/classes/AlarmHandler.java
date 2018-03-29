@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.user.lvndb.db.DBHelper;
-import com.example.user.lvndb.model.DataSchedule;
+import com.example.user.lvndb.model.PillData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +21,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class AlarmHandler {
-    ArrayList<DataSchedule> data = new ArrayList<>();
+    ArrayList<PillData> data = new ArrayList<>();
     long timeInMilliseconds;
 
     public void startAlarm(Context context, String pillName, long time, int code) {

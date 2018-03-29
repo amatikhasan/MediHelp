@@ -5,7 +5,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class DataSchedule{
+public class PillData {
 
     private String pillName;
     private int qty;
@@ -19,13 +19,13 @@ public class DataSchedule{
     private String active;
     private int code;
 
-    public DataSchedule(String pillName, String date, String time, int code) {
+    public PillData(String pillName, String date, String time, int code) {
         this.pillName = pillName;
         this.date = date;
         this.time = time;
         this.code = code;
     }
-    public DataSchedule(String pillName, int qty, String unit, int duration, String day, String date, String time, int repeatNo, String active) {
+    public PillData(String pillName, int qty, String unit, int duration, String day, String date, String time, int repeatNo, String active) {
         this.pillName = pillName;
         this.qty = qty;
         this.unit = unit;
@@ -37,7 +37,7 @@ public class DataSchedule{
         this.active = active;
     }
 
-    public DataSchedule(int code,String pillName, int qty, String unit, int duration, String day, String date, String time, int repeatNo, String active) {
+    public PillData(int code, String pillName, int qty, String unit, int duration, String day, String date, String time, int repeatNo, String active) {
         this.code=code;
         this.pillName = pillName;
         this.qty = qty;

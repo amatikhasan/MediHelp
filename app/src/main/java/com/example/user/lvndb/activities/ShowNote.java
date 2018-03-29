@@ -6,17 +6,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.user.lvndb.R;
-import com.example.user.lvndb.adapter.AppointmentAdapter;
 import com.example.user.lvndb.adapter.NoteAdapter;
 import com.example.user.lvndb.db.DBHelper;
-import com.example.user.lvndb.model.DataAppointment;
-import com.example.user.lvndb.model.DataNote;
+import com.example.user.lvndb.model.NoteData;
 
 import java.util.ArrayList;
 
 public class ShowNote extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<DataNote> obj = new ArrayList<>();
+    ArrayList<NoteData> obj = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

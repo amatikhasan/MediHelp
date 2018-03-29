@@ -4,49 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
-    tools:context="com.example.user.lvndb.activities.AddNote"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context="com.example.user.lvndb.activities.AddNote">
 
-<android.support.v7.widget.CardView
-    android:id="@+id/cv1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/cv2" >
-    <EditText
-        android:id="@+id/etNoteTitle"
-        android:layout_width="match_parent"
+    <include layout="@layout/toolbar_layout"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <EditText
+            android:id="@+id/etNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_style"
+            android:hint="Title"
+            android:inputType="textPersonName"
+            android:padding="5dp" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <EditText
+            android:id="@+id/etNoteBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_style"
+            android:ellipsize="end"
+            android:ems="10"
+            android:gravity="start"
+            android:hint="Note"
+            android:inputType="textMultiLine"
+            android:padding="5dp"
+            app:layout_constraintLeft_toLeftOf="parent" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:hint="Title"
-        android:background="@drawable/edit_text_style"
-        android:inputType="textPersonName" />
-</android.support.v7.widget.CardView>
-
-<android.support.v7.widget.CardView
-    android:id="@+id/cv2"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:layout_constraintBottom_toTopOf="@+id/btnSaveNote"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/cv1">
-    <EditText
-        android:id="@+id/etNoteBody"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:background="@drawable/edit_text_style"
-        android:ems="10"
-        android:gravity="start"
-        android:hint="Note"
-        android:inputType="textMultiLine"
-        android:padding="5dp" />
-</android.support.v7.widget.CardView>
-
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.24" />
+    <!--
     <Button
         android:id="@+id/btnSaveNote"
         android:layout_width="match_parent"
@@ -73,4 +86,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+        -->
 </android.support.constraint.ConstraintLayout>

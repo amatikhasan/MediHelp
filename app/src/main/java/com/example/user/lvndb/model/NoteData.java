@@ -4,21 +4,21 @@ package com.example.user.lvndb.model;
  * Created by User on 3/22/2018.
  */
 
-public class DataNote {
+public class NoteData {
     private int id;
     private String title;
     private  String note;
     private String date;
     private String time;
 
-    public DataNote(int id, String title, String note, String date, String time) {
+    public NoteData(int id, String title, String note, String date, String time) {
         this.id = id;
         this.title = title;
         this.note = note;
         this.date = date;
         this.time = time;
     }
-    public DataNote(String title, String note, String date, String time) {
+    public NoteData(String title, String note, String date, String time) {
         this.id = id;
         this.title = title;
         this.note = note;

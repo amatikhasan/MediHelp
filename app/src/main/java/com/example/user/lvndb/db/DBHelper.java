@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.user.lvndb.model.DataAppointment;
-import com.example.user.lvndb.model.DataNote;
-import com.example.user.lvndb.model.DataSchedule;
+import com.example.user.lvndb.model.AppointmentData;
+import com.example.user.lvndb.model.NoteData;
+import com.example.user.lvndb.model.PillData;
 
 import java.util.ArrayList;
 
@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int insertPillData(DataSchedule ds) {
+    public int insertPillData(PillData ds) {
         SQLiteDatabase sd = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PillName, ds.getPillName());
@@ -89,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return (int) id;
     }
 
-    public void updatePillData(DataSchedule ds) {
+    public void updatePillData(PillData ds) {
         SQLiteDatabase sd = getWritableDatabase();
         ContentValues values = new ContentValues();
         int code=ds.getCode();
@@ -103,16 +103,16 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(RepeatNo, ds.getRepeatNo());
         values.put(Active, ds.getActive());
 
-        long id = sd.update(TABLE_NAME_Pill, values,"id=" + code, null );
+        sd.update(TABLE_NAME_Pill, values,"id=" + code, null );
         sd.close();
-        Log.d(TAG, String.valueOf(id));
+        Log.d(TAG, String.valueOf(code));
     }
 
-    public ArrayList<DataSchedule> showPill() {
+    public ArrayList<PillData> showPill() {
         SQLiteDatabase sd = getReadableDatabase();
         String query = "Select * from " + TABLE_NAME_Pill + " ";
         Cursor cur = sd.rawQuery(query, null);
-        ArrayList<DataSchedule> data = new ArrayList<>();
+        ArrayList<PillData> data = new ArrayList<>();
 
         cur.moveToFirst();
 
@@ -129,15 +129,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 int repeatNo = cur.getInt(8);
                 String active = cur.getString(9);
                 //int code = cur.getInt(8);
-                data.add(new DataSchedule(code,pillName, qty, unit, duration, day, date,time,repeatNo,active));
+                data.add(new PillData(code,pillName, qty, unit, duration, day, date,time,repeatNo,active));
 
             } while (cur.moveToNext());
         }
         cur.close();
         return data;
     }
-   public ArrayList<DataSchedule> getPillInfo(String pillName){
-        ArrayList<DataSchedule> data=new ArrayList<>();
+   public ArrayList<PillData> getPillInfo(String pillName){
+        ArrayList<PillData> data=new ArrayList<>();
 
         SQLiteDatabase sd = getReadableDatabase();
         String query = "Select * from " + TABLE_NAME_Pill + " where pillName='"+pillName+"' order by id";
@@ -156,7 +156,37 @@ public class DBHelper extends SQLiteOpenHelper {
                 String time = cur.getString(7);
                 int repeatNo = cur.getInt(8);
                 String active = cur.getString(9);
-                data.add(new DataSchedule(code,pillName, qty, unit, duration, day, date,time,repeatNo,active));
+                data.add(new PillData(code,pillName, qty, unit, duration, day, date,time,repeatNo,active));
+
+                Log.d(TAG, String.valueOf(code));
+
+            } while (cur.moveToNext());
+        }
+        cur.close();
+        return data;
+    }
+
+    public ArrayList<PillData> getPillInfoById(int id){
+        ArrayList<PillData> data=new ArrayList<>();
+
+        SQLiteDatabase sd = getReadableDatabase();
+        String query = "Select * from " + TABLE_NAME_Pill + " where id='"+id+"'";
+        Cursor cur = sd.rawQuery(query, null);
+        cur.moveToFirst();
+
+        if (cur.moveToFirst()) {
+            do {
+                int code = cur.getInt(0);
+                String pillName = cur.getString(1);
+                int qty = cur.getInt(2);
+                String unit = cur.getString(3);
+                int duration = cur.getInt(4);
+                String day = cur.getString(5);
+                String date = cur.getString(6);
+                String time = cur.getString(7);
+                int repeatNo = cur.getInt(8);
+                String active = cur.getString(9);
+                data.add(new PillData(code,pillName, qty, unit, duration, day, date,time,repeatNo,active));
 
                 Log.d(TAG, String.valueOf(code));
 
@@ -173,7 +203,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int insertAppointmentData(DataAppointment da) {
+    public int insertAppointmentData(AppointmentData da) {
         SQLiteDatabase sd = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Appointment_DoctorName, da.getDoctorName());
@@ -188,11 +218,11 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d(TAG, String.valueOf(id));
         return (int) id;
     }
-    public ArrayList<DataAppointment> showAppointment() {
+    public ArrayList<AppointmentData> showAppointment() {
         SQLiteDatabase sd = getReadableDatabase();
         String query = "Select * from " + TABLE_NAME_Appointment + " ";
         Cursor cur = sd.rawQuery(query, null);
-        ArrayList<DataAppointment> data = new ArrayList<>();
+        ArrayList<AppointmentData> data = new ArrayList<>();
 
         cur.moveToFirst();
 
@@ -205,18 +235,18 @@ public class DBHelper extends SQLiteOpenHelper {
                 String time = cur.getString(4);
                 String note = cur.getString(5);
                 String active = cur.getString(6);
-                data.add(new DataAppointment(code,doctorName,location,date,time,note,active));
+                data.add(new AppointmentData(code,doctorName,location,date,time,note,active));
 
             } while (cur.moveToNext());
         }
         cur.close();
         return data;
     }
-    public ArrayList<DataAppointment> getAppointmentInfo(int id) {
+    public ArrayList<AppointmentData> getAppointmentInfo(int id) {
         SQLiteDatabase sd = getReadableDatabase();
         String query = "Select * from " + TABLE_NAME_Appointment + " where id='"+id+"' ";
         Cursor cur = sd.rawQuery(query, null);
-        ArrayList<DataAppointment> data = new ArrayList<>();
+        ArrayList<AppointmentData> data = new ArrayList<>();
 
         cur.moveToFirst();
 
@@ -229,14 +259,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 String time = cur.getString(4);
                 String note = cur.getString(5);
                 String active = cur.getString(6);
-                data.add(new DataAppointment(code,doctorName,location,date,time,note,active));
+                data.add(new AppointmentData(code,doctorName,location,date,time,note,active));
 
             } while (cur.moveToNext());
         }
         cur.close();
         return data;
     }
-    public void updateAppointment(DataAppointment da) {
+    public void updateAppointment(AppointmentData da) {
         SQLiteDatabase sd = getWritableDatabase();
         ContentValues values = new ContentValues();
         int code=da.getCode();
@@ -259,7 +289,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int addNote(DataNote dn) {
+    public int addNote(NoteData dn) {
         SQLiteDatabase sd = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Note_Title, dn.getTitle());
@@ -273,11 +303,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return (int) id;
     }
 
-    public ArrayList<DataNote> showNote() {
+    public ArrayList<NoteData> showNote() {
         SQLiteDatabase sd = getReadableDatabase();
         String query = "Select * from " + TABLE_NAME_Note + " ";
         Cursor cur = sd.rawQuery(query, null);
-        ArrayList<DataNote> data = new ArrayList<>();
+        ArrayList<NoteData> data = new ArrayList<>();
 
         cur.moveToFirst();
 
@@ -288,7 +318,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 String note = cur.getString(2);
                 String date = cur.getString(3);
                 String time = cur.getString(4);
-                data.add(new DataNote(code,title,note,date,time));
+                data.add(new NoteData(code,title,note,date,time));
 
             } while (cur.moveToNext());
         }
@@ -296,7 +326,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public void updateNote(DataNote dn) {
+    public void updateNote(NoteData dn) {
         SQLiteDatabase sd = getWritableDatabase();
         ContentValues values = new ContentValues();
         int id=dn.getId();
