@@ -1,47 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.user.lvndb.activities.FindDoctor">
+    android:orientation="vertical"
+    tools:context="com.example.user.surokkha.activities.FindDoctor">
 
 <include layout="@layout/toolbar_layout"/>
-
-    <Spinner
-        android:layout_margin="50dp"
-        android:id="@+id/spSpeciality"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        android:layout_height="match_parent">
 
-    <Spinner
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:id="@+id/spDistrict"
+<include layout="@layout/content_find_doctor"/>
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/spSpeciality"/>
-
-    <Spinner
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:id="@+id/spArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/spDistrict"/>
-
-    <Button
-        android:id="@+id/btnSearchDoctor"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_viw"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Find Doctor"
-        android:onClick="searchDoctor"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spArea" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_menu" />
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

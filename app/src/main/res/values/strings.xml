@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Medi Help</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <string-array name="frequency">
         <item>Everyday</item>
         <item>Specific Days</item>
@@ -10,4 +12,11 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string name="title_activity_nav_check">NavCheck</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

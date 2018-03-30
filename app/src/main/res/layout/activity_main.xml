@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context="com.example.user.lvndb.activities.MainActivity">
+    tools:context="com.example.user.surokkha.activities.MainActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -80,16 +80,8 @@
             android:id="@+id/btnFindHospital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Find Hospital" />
-
-        <Button
-            android:id="@+id/btnShowDoctor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="showDoctor"
-            android:text="Show Doctor"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="109dp" />
+            android:text="Find Hospital"
+            android:onClick="findHospital"/>
 
     </LinearLayout>
 

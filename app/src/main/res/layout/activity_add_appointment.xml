@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.user.lvndb.activities.AddAppointment"
+    tools:context="com.example.user.surokkha.activities.AddAppointment"
     tools:layout_editor_absoluteY="25dp">
 
     <include layout="@layout/toolbar_layout"/>

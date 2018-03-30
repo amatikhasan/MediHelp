@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.user.lvndb">
+    package="com.example.user.surokkha">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -38,7 +39,16 @@
         <activity android:name=".activities.AddNote" />
         <activity android:name=".activities.ShowNote" />
         <activity android:name=".activities.FindDoctor" />
-        <activity android:name=".activities.ShowDoctor"></activity>
+        <activity android:name=".activities.ShowDoctor" />
+        <activity android:name=".activities.FindHospital" />
+        <activity android:name=".activities.ShowHospital" />
+
+        <service android:name=".classes.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
