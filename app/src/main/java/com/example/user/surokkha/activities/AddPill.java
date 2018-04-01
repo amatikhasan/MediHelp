@@ -13,9 +13,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -24,24 +26,27 @@ import com.example.user.surokkha.classes.AlarmHandler;
 import com.example.user.surokkha.db.DBHelper;
 import com.example.user.surokkha.model.PillData;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AddPill extends AppCompatActivity {
     EditText etPill, etQty, etUnit, etDuration;
     Button insert, btnDate, time1, time2, time3, time4;
     Spinner spNo, spFrequency;
+    Switch swActive;
     private static final int Date_id = 0;
     private static final int Time_id = 1;
     String[] frequency;
     String[] reminderNo;
-    String date, active, days;
+    String date, active="true", days="Everyday";
     public static String[] time = new String[4];
     int repeatNo = 1;
     int timeBtnId;
     Calendar calendar;
     int mYear, mMonth, mDay, mHour, mMinute, hour, minute;
     DBHelper dbHelper;
-    public static long dateInMilis,presentTimeMillis;
+    public static long dateInMilis, presentTimeMillis;
     public static long[] timeInMilis = new long[4];
     Toolbar toolbar;
 
@@ -56,6 +61,7 @@ public class AddPill extends AppCompatActivity {
 
         dbHelper = new DBHelper(getApplicationContext());
 
+        swActive = findViewById(R.id.swActive_add);
         etPill = (EditText) findViewById(R.id.etPN);
         etQty = (EditText) findViewById(R.id.etQty);
         etUnit = (EditText) findViewById(R.id.etUnit);
@@ -67,18 +73,31 @@ public class AddPill extends AppCompatActivity {
         time3 = findViewById(R.id.time3);
         time4 = findViewById(R.id.time4);
         spNo = findViewById(R.id.spNo);
-        spFrequency = findViewById(R.id.spFrequency);
+        //spFrequency = findViewById(R.id.spFrequency);
 
         //getting date time
         getDateTime();
 
         //Spinner Adapter
-        frequency = getResources().getStringArray(R.array.frequency);
         reminderNo = getResources().getStringArray(R.array.reminderNo);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, frequency);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, reminderNo);
-        spFrequency.setAdapter(adapter);
         spNo.setAdapter(adapter2);
+
+        //frequency = getResources().getStringArray(R.array.frequency);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, frequency);
+        //spFrequency.setAdapter(adapter);
+
+        //set switch value
+        swActive.setChecked(Boolean.parseBoolean(active));
+        swActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                if (isChecked) {
+                    active = "true";
+                } else active = "false";
+            }
+        });
 
         //Spinner onItemSelect
         spNo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -121,7 +140,7 @@ public class AddPill extends AppCompatActivity {
 
             }
         });
-
+/*
         //Spinner onItemSelect
         spFrequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -142,7 +161,7 @@ public class AddPill extends AppCompatActivity {
 
             }
         });
-
+*/
         /*
         //AddPill Button Click
         insert.setOnClickListener(new View.OnClickListener() {
@@ -273,7 +292,7 @@ public class AddPill extends AppCompatActivity {
 
             date = String.valueOf(mDay) + "-" + String.valueOf(mMonth + 1)
                     + "-" + String.valueOf(mYear);
-            btnDate.setText(date);
+            btnDate.setText(formatDate());
             Log.d("Date Check", date);
             Log.d("Date milis Check", String.valueOf(dateInMilis));
         }
@@ -301,7 +320,7 @@ public class AddPill extends AppCompatActivity {
                         time[0] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
 
-                    time1.setText(time[0]);
+                    time1.setText(formatTime(mHour, mMinute));
                     break;
 
                 case R.id.time2:
@@ -317,7 +336,7 @@ public class AddPill extends AppCompatActivity {
                         time[1] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
 
-                    time2.setText(time[1]);
+                    time2.setText(formatTime(mHour, mMinute));
                     break;
                 case R.id.time3:
                     mHour = hour;
@@ -331,7 +350,7 @@ public class AddPill extends AppCompatActivity {
                     } else {
                         time[2] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
-                    time3.setText(time[2]);
+                    time3.setText(formatTime(mHour, mMinute));
                     break;
                 case R.id.time4:
                     mHour = hour;
@@ -345,7 +364,7 @@ public class AddPill extends AppCompatActivity {
                     } else {
                         time[3] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
-                    time4.setText(time[3]);
+                    time4.setText(formatTime(mHour, mMinute));
                     break;
             }
             //String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
@@ -383,9 +402,8 @@ public class AddPill extends AppCompatActivity {
         int qty = Integer.parseInt(etQty.getText().toString());
         String unit = etUnit.getText().toString();
         int duration = Integer.valueOf(etDuration.getText().toString());
-        active = "true";
+        //active = "true";
         int[] code = new int[repeatNo];
-        //code = dbHelper.getPillCode();
 
         //AddPill into Database
         for (int i = 0; i < repeatNo; i++) {
@@ -397,23 +415,25 @@ public class AddPill extends AppCompatActivity {
         }
         Log.d("pill inserted", String.valueOf(code.length));
         //Trigger Alarm
-        for (int i = 0; i < code.length; i++) {
-            getPresentTimeMillis();
-            if(presentTimeMillis>timeInMilis[i]){
-                timeInMilis[i]+=86400000;
-            }
-            AlarmHandler alarmHandler = new AlarmHandler();
-            alarmHandler.startAlarm(AddPill.this, pillName, timeInMilis[i], code[i]);
-            Log.d("Code Check for alarm", String.valueOf(code[i]));
-            Log.d("Time for alarm", "Pill:" + code[i] + " " + String.valueOf(timeInMilis[i]));
+        if (active.equals("true")) {
+            for (int i = 0; i < code.length; i++) {
+                getPresentTimeMillis();
+                if (presentTimeMillis > timeInMilis[i]) {
+                    timeInMilis[i] += 86400000;
+                }
+                AlarmHandler alarmHandler = new AlarmHandler();
+                alarmHandler.startAlarm(AddPill.this, pillName,time[i],date,duration, timeInMilis[i], code[i]);
+                Log.d("Code Check for alarm", String.valueOf(code[i]));
+                Log.d("Time for alarm", "Pill:" + code[i] + " " + String.valueOf(timeInMilis[i]));
 
-            //Intent intent=new Intent(AddPill.this,ShowPill.class);
-            //startActivity(intent);
+                //Intent intent=new Intent(AddPill.this,ShowPill.class);
+                //startActivity(intent);
+            }
         }
     }
 
     //get timeMillis Now
-    public void getPresentTimeMillis(){
+    public void getPresentTimeMillis() {
         // Get the calander
         Calendar c = Calendar.getInstance();
 
@@ -424,10 +444,10 @@ public class AddPill extends AppCompatActivity {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         c.set(year, month, day, hour, minute, 0);
-        presentTimeMillis=c.getTimeInMillis();
+        presentTimeMillis = c.getTimeInMillis();
     }
 
-    ////set spinner values Date, and times
+    ////set spinner values, Date, and times
     public void getDateTime() {
 
         // Get the calander
@@ -441,63 +461,100 @@ public class AddPill extends AppCompatActivity {
         mMinute = calendar.get(Calendar.MINUTE);
 
         date = mDay + "-" + (mMonth + 1) + "-" + mYear;
-        btnDate.setText(date);
+        btnDate.setText(formatDate());
 
         switch (repeatNo) {
             case 1:
                 calendar.set(mYear, mMonth, mDay, 10, 0, 0);
                 timeInMilis[0] = calendar.getTimeInMillis();
                 time[0] = "10:00";
-                time1.setText("10:00");
+                time1.setText("10:00 AM");
                 break;
             case 2:
                 calendar.set(mYear, mMonth, mDay, 10, 0, 0);
                 timeInMilis[0] = calendar.getTimeInMillis();
                 time[0] = "10:00";
-                time1.setText("10:00");
+                time1.setText("10:00 AM");
 
                 calendar.set(mYear, mMonth, mDay, 13, 30, 0);
                 timeInMilis[1] = calendar.getTimeInMillis();
                 time[1] = "13:00";
-                time2.setText("13:30");
+                time2.setText("1:30 PM");
                 break;
             case 3:
                 calendar.set(mYear, mMonth, mDay, 10, 0, 0);
                 timeInMilis[0] = calendar.getTimeInMillis();
                 time[0] = "10:00";
-                time1.setText("10:00");
+                time1.setText("10:00 AM");
 
                 calendar.set(mYear, mMonth, mDay, 13, 30, 0);
                 timeInMilis[1] = calendar.getTimeInMillis();
                 time[1] = "13:00";
-                time2.setText("13:30");
+                time2.setText("1:30 PM");
 
                 calendar.set(mYear, mMonth, mDay, 17, 0, 0);
                 timeInMilis[2] = calendar.getTimeInMillis();
                 time[2] = "17:00";
-                time3.setText("17:00");
+                time3.setText("5:00 PM");
                 break;
             case 4:
                 calendar.set(mYear, mMonth, mDay, 10, 0, 0);
                 timeInMilis[0] = calendar.getTimeInMillis();
                 time[0] = "10:00";
-                time1.setText("10:00");
+                time1.setText("10:00 AM");
 
                 calendar.set(mYear, mMonth, mDay, 13, 30, 0);
                 timeInMilis[1] = calendar.getTimeInMillis();
                 time[1] = "13:00";
-                time2.setText("13:30");
+                time2.setText("1:30 PM");
 
                 calendar.set(mYear, mMonth, mDay, 17, 0, 0);
                 timeInMilis[2] = calendar.getTimeInMillis();
                 time[2] = "17:00";
-                time3.setText("17:00");
+                time3.setText("5:00 PM");
 
                 calendar.set(mYear, mMonth, mDay, 21, 0, 0);
                 timeInMilis[3] = calendar.getTimeInMillis();
                 time[3] = "21:00";
-                time4.setText("21:00");
+                time4.setText("9:00 PM");
                 break;
         }
     }
+
+    //formate time with AM,PM for button
+    public String formatTime(int hourOfDay, int minute) {
+        String format, formattedTime, minutes;
+        if (hourOfDay == 0) {
+            hourOfDay += 12;
+            format = "AM";
+        } else if (hourOfDay == 12) {
+            format = "PM";
+        } else if (hourOfDay > 12) {
+            hourOfDay -= 12;
+            format = "PM";
+        } else {
+            format = "AM";
+        }
+
+        if (minute < 10)
+            minutes = "0" + minute;
+        else
+            minutes = String.valueOf(minute);
+        formattedTime = hourOfDay + ":" + minutes + " " + format;
+
+        return formattedTime;
+    }
+
+    //formate date for button
+    public String formatDate() {
+        String formattedDate;
+        SimpleDateFormat sdtf = new SimpleDateFormat("EEE, dd MMM yyyy");
+
+        Calendar c = Calendar.getInstance();
+        c.set(mYear,mMonth,mDay);
+        Date now = c.getTime();
+        formattedDate = sdtf.format(now);
+        return formattedDate;
+    }
+
 }

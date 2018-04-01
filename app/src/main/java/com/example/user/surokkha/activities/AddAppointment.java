@@ -22,7 +22,9 @@ import com.example.user.surokkha.classes.AlarmHandler;
 import com.example.user.surokkha.db.DBHelper;
 import com.example.user.surokkha.model.AppointmentData;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddAppointment extends AppCompatActivity {
     EditText etDoctor, etLocation, etNote;
@@ -54,6 +56,9 @@ public class AddAppointment extends AppCompatActivity {
         //         btnInsert = (Button) findViewById(R.id.btnAddAppointment);
         btnDate = (Button) findViewById(R.id.btnAppointmentDate);
         btnTime = findViewById(R.id.btnAppointmentTime);
+
+        //set date in button
+        getDateTime();
 
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +148,7 @@ public class AddAppointment extends AppCompatActivity {
             date = String.valueOf(mDay) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mYear);
             //dialogue returns month number less 1 but gives right milis
             newDate= String.valueOf(mDay) + "-" + String.valueOf(mMonth+1) + "-" + String.valueOf(mYear);
-            btnDate.setText(newDate);
+            btnDate.setText(formatDate());
             Log.d("new Date Check", date);
             Log.d("new Date milis Check", String.valueOf(dateInMilis));
         }
@@ -169,7 +174,7 @@ public class AddAppointment extends AppCompatActivity {
                 time = String.valueOf(hour) + ":" + String.valueOf(minute);
             }
 
-            btnTime.setText(time);
+            btnTime.setText(formatTime(time));
 
             //String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
             //set_time.setText(time1);
@@ -218,11 +223,71 @@ public class AddAppointment extends AppCompatActivity {
 
         //Trigger Alarm
         AlarmHandler alarmHandler = new AlarmHandler();
-        alarmHandler.startAppointmentAlarm(AddAppointment.this, doctorName, timeInMilis, (code + 10000));
+        alarmHandler.startAppointmentAlarm(AddAppointment.this, doctorName,time, timeInMilis, (code + 10000));
         Log.d("Code Check for alarm", String.valueOf(code + 10000));
         Log.d("Time for alarm", String.valueOf(timeInMilis));
         Intent intent = new Intent(AddAppointment.this, ShowAppointment.class);
         startActivity(intent);
     }
 
+    ////set Date, and times
+    public void getDateTime() {
+        // Get the calander
+       calendar = Calendar.getInstance();
+
+        // From calander get the year, month, day, hour, minute
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mHour = calendar.get(Calendar.HOUR_OF_DAY);
+        mMinute = calendar.get(Calendar.MINUTE);;
+
+        calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
+
+        timeInMilis = calendar.getTimeInMillis();
+        time = String.valueOf(mHour) + ":" + String.valueOf(mMinute);
+        btnTime.setText(formatTime(time));
+
+        newDate = mDay + "-" + (mMonth+1) + "-" + mYear;
+        btnDate.setText(formatDate());
+    }
+
+    //formate time with AM,PM for button
+    public String formatTime(String time) {
+        String format, formattedTime, minutes;
+        String[] dateParts = time.split(":");
+        int hour = Integer.parseInt(dateParts[0]);
+        int minute = Integer.parseInt(dateParts[1]);
+        if (hour == 0) {
+            hour += 12;
+            format = "AM";
+        } else if (hour == 12) {
+            format = "PM";
+        } else if (hour > 12) {
+            hour -= 12;
+            format = "PM";
+        } else {
+            format = "AM";
+        }
+
+        if (minute < 10)
+            minutes = "0" + minute;
+        else
+            minutes = String.valueOf(minute);
+        formattedTime = hour + ":" + minutes + " " + format;
+
+        return formattedTime;
+    }
+
+    //formate date for button
+    public String formatDate() {
+        String formattedDate;
+        SimpleDateFormat sdtf = new SimpleDateFormat("EEE, dd MMM yyyy");
+
+        Calendar c = Calendar.getInstance();
+        c.set(mYear,mMonth,mDay);
+        Date now = c.getTime();
+        formattedDate = sdtf.format(now);
+        return formattedDate;
+    }
 }

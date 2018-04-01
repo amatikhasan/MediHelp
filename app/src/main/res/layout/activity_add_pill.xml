@@ -61,7 +61,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Duration" />
-
+<!--
         <Spinner
             android:id="@+id/spFrequency"
             android:gravity="center"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:entries="@array/frequency"
             />
-
+-->
         <Spinner
             android:id="@+id/spNo"
             android:gravity="center"
@@ -123,6 +123,12 @@
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="323dp" />
 -->
+        <Switch
+            android:id="@+id/swActive_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="On/Off    " />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

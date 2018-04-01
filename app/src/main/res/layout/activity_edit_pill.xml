@@ -63,7 +63,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Duration" />
-
+<!--
         <Spinner
             android:id="@+id/spFrequency"
             android:gravity="center"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:entries="@array/frequency"
             />
-
+-->
         <Spinner
             android:id="@+id/spNo"
             android:gravity="center"

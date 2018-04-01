@@ -15,7 +15,10 @@ import com.example.user.surokkha.R;
 import com.example.user.surokkha.activities.EditPill;
 import com.example.user.surokkha.model.PillData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -48,7 +51,7 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
         holder.qty.setText(String.valueOf(obj.getQty()));
         holder.unit.setText(obj.getUnit());
         holder.day.setText(obj.getDay());
-        holder.time.setText(obj.getTime());
+        holder.time.setText( formatTime(obj.getTime()));
         holder.iv.setImageResource(R.drawable.image);
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +101,50 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
             iv = itemView.findViewById(R.id.ivT1);
             card=itemView.findViewById(R.id.card);
         }
+    }
+
+    //formate time with AM,PM
+    public String formatTime(String time) {
+        String format, formattedTime, minutes;
+        String[] dateParts = time.split(":");
+        int hour = Integer.parseInt(dateParts[0]);
+        int minute = Integer.parseInt(dateParts[1]);
+        if (hour == 0) {
+            hour += 12;
+            format = "AM";
+        } else if (hour == 12) {
+            format = "PM";
+        } else if (hour > 12) {
+            hour -= 12;
+            format = "PM";
+        } else {
+            format = "AM";
+        }
+
+        if (minute < 10)
+            minutes = "0" + minute;
+        else
+            minutes = String.valueOf(minute);
+        formattedTime = hour + ":" + minutes + " " + format;
+
+        return formattedTime;
+    }
+
+    //formate date
+    public String formatDate(String date) {
+        String[] dateParts = date.split("-");
+        int day = Integer.parseInt(dateParts[0]);
+        int month = (Integer.parseInt(dateParts[1])-1);
+        int year = Integer.parseInt(dateParts[2]);
+
+        String formattedDate;
+        SimpleDateFormat sdtf = new SimpleDateFormat("EEE, dd MMM yyyy");
+
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        Date now = c.getTime();
+        formattedDate = sdtf.format(now);
+        return formattedDate;
     }
 
 }

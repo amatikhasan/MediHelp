@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -206,7 +207,7 @@ public class EditAppointment extends AppCompatActivity {
                     + "-" + String.valueOf(mYear);
             newDate=String.valueOf(mDay) + "-" + String.valueOf(mMonth+1)
                     + "-" + String.valueOf(mYear);
-            btnDate.setText(newDate);
+            btnDate.setText(formatDate());
             Log.d("new Date Check", newDate);
             Log.d("new Date milis Check", String.valueOf(dateInMilis));
         }
@@ -232,7 +233,7 @@ public class EditAppointment extends AppCompatActivity {
                 time = String.valueOf(hour) + ":" + String.valueOf(minute);
             }
 
-            btnTime.setText(time);
+            btnTime.setText(formatTime(time));
 
             //String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
             //set_time.setText(time1);
@@ -255,10 +256,10 @@ public class EditAppointment extends AppCompatActivity {
         etNote.setText(appointmentData.get(0).getNote());
         date=mDay + "-" + mMonth + "-" + mYear;
         newDate = mDay + "-" + (mMonth+1) + "-" + mYear;
-        btnDate.setText(newDate);
+        btnDate.setText(formatDate());
         //get alarm time
         time = appointmentData.get(0).getTime();
-        btnTime.setText(time);
+        btnTime.setText(formatTime(time));
 
         //get time in milis
         String datetime = newDate + " " + time;
@@ -317,7 +318,7 @@ public class EditAppointment extends AppCompatActivity {
         //Trigger Alarm
         if (active.equals("true")) {
             AlarmHandler alarmHandler = new AlarmHandler();
-            alarmHandler.startAppointmentAlarm(EditAppointment.this, doctorName, timeInMilis, (code + 10000));
+            alarmHandler.startAppointmentAlarm(EditAppointment.this, doctorName,time, timeInMilis, (code + 10000));
             Log.d("Code Check for alarm", String.valueOf(code + 10000));
             Log.d("Time for alarm", String.valueOf(timeInMilis));
         }
@@ -345,6 +346,45 @@ public class EditAppointment extends AppCompatActivity {
         Log.d("Time for alarm", String.valueOf(timeInMilis));
         Intent intent=new Intent(EditAppointment.this,ShowAppointment.class);
         startActivity(intent);
+    }
+
+    //formate time with AM,PM for button
+    public String formatTime(String time) {
+        String format, formattedTime, minutes;
+        String[] dateParts = time.split(":");
+        int hour = Integer.parseInt(dateParts[0]);
+        int minute = Integer.parseInt(dateParts[1]);
+        if (hour == 0) {
+            hour += 12;
+            format = "AM";
+        } else if (hour == 12) {
+            format = "PM";
+        } else if (hour > 12) {
+            hour -= 12;
+            format = "PM";
+        } else {
+            format = "AM";
+        }
+
+        if (minute < 10)
+            minutes = "0" + minute;
+        else
+            minutes = String.valueOf(minute);
+        formattedTime = hour + ":" + minutes + " " + format;
+
+        return formattedTime;
+    }
+
+    //formate date for button
+    public String formatDate() {
+        String formattedDate;
+        SimpleDateFormat sdtf = new SimpleDateFormat("EEE, dd MMM yyyy");
+
+        Calendar c = Calendar.getInstance();
+        c.set(mYear,mMonth,mDay);
+        Date now = c.getTime();
+        formattedDate = sdtf.format(now);
+        return formattedDate;
     }
 
     }

@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,16 +43,15 @@ public class EditPill extends AppCompatActivity {
     private final int Date_id = 0;
     private final int Time_id = 1;
     Bundle extras;
-    String[] frequency;
-    String[] reminderNo;
-    String pillName, date, newDate, days, active, notification="false";
+    String[] reminderNo,frequency;
+    String pillName, date, newDate, days="Everyday", active, notification = "false";
     public String[] time = new String[4];
     int repeatNo, newRepeatNo;
     int timeBtnId;
     Calendar calendar;
     int mYear, mMonth, mDay, mHour, mMinute, year, month, day, hour, minute;
     ArrayList<PillData> pillData = new ArrayList<>();
-    public static long dateInMilis,presentTimeMillis;
+    public static long dateInMilis, presentTimeMillis;
     public long[] timeInMilis = new long[4];
     DBHelper dbHelper;
     Toolbar toolbar;
@@ -80,15 +80,17 @@ public class EditPill extends AppCompatActivity {
         time3 = findViewById(R.id.time3);
         time4 = findViewById(R.id.time4);
         spNo = findViewById(R.id.spNo);
-        spFrequency = findViewById(R.id.spFrequency);
+        //spFrequency = findViewById(R.id.spFrequency);
 
         //spinner adapter
-        frequency = getResources().getStringArray(R.array.frequency);
+
         reminderNo = getResources().getStringArray(R.array.reminderNo);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, frequency);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, reminderNo);
-        spFrequency.setAdapter(adapter);
-        spNo.setAdapter(adapter2);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, reminderNo);
+        spNo.setAdapter(adapter);
+        //frequency = getResources().getStringArray(R.array.frequency);
+        // ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, frequency);
+        // spFrequency.setAdapter(adapter2);
+
 
         //getting extras
         extras = getIntent().getExtras();
@@ -156,7 +158,7 @@ public class EditPill extends AppCompatActivity {
 
             }
         });
-
+/*
         //Spinner onItemSelect
         spFrequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -177,7 +179,7 @@ public class EditPill extends AppCompatActivity {
 
             }
         });
-
+*/
         /*
         //AddPill Button Click
         insert.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +341,7 @@ public class EditPill extends AppCompatActivity {
             dateInMilis = calendar.getTimeInMillis();
             date = String.valueOf(mDay) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mYear);
             newDate = String.valueOf(mDay) + "-" + String.valueOf(mMonth + 1) + "-" + String.valueOf(mYear);
-            btnDate.setText(newDate);
+            btnDate.setText(formatDate());
             Log.d("Date Check", newDate);
             Log.d("Date milis Check", String.valueOf(dateInMilis));
         }
@@ -373,7 +375,7 @@ public class EditPill extends AppCompatActivity {
                         time[0] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
 
-                    time1.setText(time[0]);
+                    time1.setText(formatTime(time[0]));
                     break;
 
                 case R.id.time2:
@@ -397,7 +399,7 @@ public class EditPill extends AppCompatActivity {
                         time[1] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
 
-                    time2.setText(time[1]);
+                    time2.setText(formatTime(time[1]));
                     break;
                 case R.id.time3:
 
@@ -412,7 +414,7 @@ public class EditPill extends AppCompatActivity {
                     } else {
                         time[2] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
-                    time3.setText(time[2]);
+                    time3.setText(formatTime(time[2]));
                     break;
                 case R.id.time4:
 
@@ -427,7 +429,7 @@ public class EditPill extends AppCompatActivity {
                     } else {
                         time[3] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
-                    time4.setText(time[3]);
+                    time4.setText(formatTime(time[3]));
                     break;
             }
             //String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
@@ -449,7 +451,7 @@ public class EditPill extends AppCompatActivity {
         //date for db
         newDate = mDay + "-" + (mMonth + 1) + "-" + mYear;
         newRepeatNo = repeatNo;
-        btnDate.setText(newDate);
+        btnDate.setText(formatDate());
 
         //set edit text value
         etPill.setText(pillData.get(0).getPillName());
@@ -460,15 +462,15 @@ public class EditPill extends AppCompatActivity {
 
         if (repeatNo == 1) {
             time1.setVisibility(View.VISIBLE);
-            time1.setText(pillData.get(0).getTime());
+            time1.setText(formatTime(pillData.get(0).getTime()));
             getTimeMilis(0);
 
         }
         if (repeatNo == 2) {
             time1.setVisibility(View.VISIBLE);
             time2.setVisibility(View.VISIBLE);
-            time1.setText(pillData.get(0).getTime());
-            time2.setText(pillData.get(1).getTime());
+            time1.setText(formatTime(pillData.get(0).getTime()));
+            time2.setText(formatTime(pillData.get(1).getTime()));
             getTimeMilis(0);
             getTimeMilis(1);
 
@@ -477,9 +479,9 @@ public class EditPill extends AppCompatActivity {
             time1.setVisibility(View.VISIBLE);
             time2.setVisibility(View.VISIBLE);
             time3.setVisibility(View.VISIBLE);
-            time1.setText(pillData.get(0).getTime());
-            time2.setText(pillData.get(1).getTime());
-            time3.setText(pillData.get(2).getTime());
+            time1.setText(formatTime(pillData.get(0).getTime()));
+            time2.setText(formatTime(pillData.get(1).getTime()));
+            time3.setText(formatTime(pillData.get(2).getTime()));
             getTimeMilis(0);
             getTimeMilis(1);
             getTimeMilis(2);
@@ -490,10 +492,10 @@ public class EditPill extends AppCompatActivity {
             time2.setVisibility(View.VISIBLE);
             time3.setVisibility(View.VISIBLE);
             time4.setVisibility(View.VISIBLE);
-            time1.setText(pillData.get(0).getTime());
-            time2.setText(pillData.get(1).getTime());
-            time3.setText(pillData.get(2).getTime());
-            time4.setText(pillData.get(3).getTime());
+            time1.setText(formatTime(pillData.get(0).getTime()));
+            time2.setText(formatTime(pillData.get(1).getTime()));
+            time3.setText(formatTime(pillData.get(2).getTime()));
+            time4.setText(formatTime(pillData.get(3).getTime()));
             getTimeMilis(0);
             getTimeMilis(1);
             getTimeMilis(2);
@@ -507,7 +509,7 @@ public class EditPill extends AppCompatActivity {
         //get alarm time
         time[code] = pillData.get(code).getTime();
 
-//get time in milis
+        //get time in milis
         String datetime = newDate + " " + pillData.get(code).getTime();
         SimpleDateFormat sdtf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         try {
@@ -639,12 +641,12 @@ public class EditPill extends AppCompatActivity {
                 id = pillData.get(i).getCode();
 
                 getPresentTimeMillis();
-                if(presentTimeMillis>timeInMilis[i]){
-                    timeInMilis[i]+=86400000;
+                if (presentTimeMillis > timeInMilis[i]) {
+                    timeInMilis[i] += 86400000;
                 }
                 AlarmHandler alarmHandler = new AlarmHandler();
                 //alarmHandler.cancelAlarm(EditPill.this, id);
-                alarmHandler.startAlarm(EditPill.this, pillName, timeInMilis[i], id);
+                alarmHandler.startAlarm(EditPill.this, pillName,time[i],date,duration, timeInMilis[i], id);
                 Log.d("Code Check for alarm", String.valueOf(id));
                 Log.d("Date for alarm", String.valueOf(date));
                 Log.d("Time for alarm", String.valueOf(time[i]));
@@ -666,8 +668,9 @@ public class EditPill extends AppCompatActivity {
         Intent intent = new Intent(EditPill.this, ShowPill.class);
         startActivity(intent);
     }
+
     //get timeMillis Now
-    public void getPresentTimeMillis(){
+    public void getPresentTimeMillis() {
         // Get the calander
         Calendar c = Calendar.getInstance();
 
@@ -678,7 +681,47 @@ public class EditPill extends AppCompatActivity {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         c.set(year, month, day, hour, minute, 0);
-        presentTimeMillis=c.getTimeInMillis();
+        presentTimeMillis = c.getTimeInMillis();
         Log.d("Present TimeMilis", String.valueOf(presentTimeMillis));
     }
+
+    //formate time with AM,PM for button
+    public String formatTime(String time) {
+        String format, formattedTime, minutes;
+        String[] dateParts = time.split(":");
+        int hour = Integer.parseInt(dateParts[0]);
+        int minute = Integer.parseInt(dateParts[1]);
+        if (hour == 0) {
+            hour += 12;
+            format = "AM";
+        } else if (hour == 12) {
+            format = "PM";
+        } else if (hour > 12) {
+            hour -= 12;
+            format = "PM";
+        } else {
+            format = "AM";
+        }
+
+        if (minute < 10)
+            minutes = "0" + minute;
+        else
+            minutes = String.valueOf(minute);
+        formattedTime = hour + ":" + minutes + " " + format;
+
+        return formattedTime;
+    }
+
+    //formate date for button
+    public String formatDate() {
+        String formattedDate;
+        SimpleDateFormat sdtf = new SimpleDateFormat("EEE, dd MMM yyyy");
+
+        Calendar c = Calendar.getInstance();
+        c.set(mYear, mMonth, mDay);
+        Date now = c.getTime();
+        formattedDate = sdtf.format(now);
+        return formattedDate;
+    }
+
 }

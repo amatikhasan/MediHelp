@@ -24,10 +24,13 @@ public class AlarmHandler {
     ArrayList<PillData> data = new ArrayList<>();
     long timeInMilliseconds;
 
-    public void startAlarm(Context context, String pillName, long time, int code) {
+    public void startAlarm(Context context, String pillName,String alarmTime,String date,int duration, long time, int code) {
         Intent aIntent = new Intent(context, AlarmReceiver.class);
-        aIntent.putExtra("pillName", pillName);
         aIntent.putExtra("code", code);
+        aIntent.putExtra("pillName", pillName);
+        aIntent.putExtra("time", alarmTime);
+        aIntent.putExtra("date", date);
+        aIntent.putExtra("duration", duration);
         PendingIntent pIntent = PendingIntent.getBroadcast(context, code, aIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 60000, pIntent);
@@ -45,9 +48,10 @@ public class AlarmHandler {
 
         Log.d("Code from CancelAlarm", String.valueOf(code));
     }
-    public void startAppointmentAlarm(Context context, String doctorName, long time, int code) {
+    public void startAppointmentAlarm(Context context, String doctorName,String alarmTime, long time, int code) {
         Intent aIntent = new Intent(context, AlarmReceiver.class);
         aIntent.putExtra("doctorName", doctorName);
+        aIntent.putExtra("time", alarmTime);
         aIntent.putExtra("code", code);
         PendingIntent pIntent = PendingIntent.getBroadcast(context, code, aIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -95,7 +99,4 @@ public class AlarmHandler {
 
     }
 
-    public void cancalAlarm() {
-
-    }
 }
