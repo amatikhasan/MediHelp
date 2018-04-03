@@ -78,4 +78,13 @@ Button b1,b2;
         Intent intent=new Intent(this,FindHospital.class);
         startActivity(intent);
     }
+    public void verify(View view){
+        Intent intent=new Intent(this,PhoneAuthActivity.class);
+        startActivity(intent);
+    }
+    public void phoneAuth(View view){
+        //Intent intent=new Intent(this,PhoneAuth.class);
+        //startActivity(intent);
+    }
 }
+

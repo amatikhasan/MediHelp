@@ -83,6 +83,19 @@
             android:text="Find Hospital"
             android:onClick="findHospital"/>
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify"
+            android:onClick="verify"/>
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify"
+            android:onClick="phoneAuth"/>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

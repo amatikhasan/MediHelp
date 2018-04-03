@@ -70,7 +70,7 @@ public class EditPill extends AppCompatActivity {
         etPill = (EditText) findViewById(R.id.etPN);
         etQty = (EditText) findViewById(R.id.etQty);
         etUnit = (EditText) findViewById(R.id.etUnit);
-        etDuration = (EditText) findViewById(R.id.etDuration);
+        //etDuration = (EditText) findViewById(R.id.etDuration);
         swActive = findViewById(R.id.swActive);
         //insert = (Button) findViewById(R.id.Insert);
         //btnDelete = findViewById(R.id.btnDeleteAlarm);
@@ -457,7 +457,7 @@ public class EditPill extends AppCompatActivity {
         etPill.setText(pillData.get(0).getPillName());
         etQty.setText(String.valueOf(pillData.get(0).getQty()));
         etUnit.setText(pillData.get(0).getUnit());
-        etDuration.setText(String.valueOf(pillData.get(0).getDuration()));
+        //etDuration.setText(String.valueOf(pillData.get(0).getDuration()));
         spNo.setSelection(repeatNo - 1);
 
         if (repeatNo == 1) {
@@ -579,7 +579,8 @@ public class EditPill extends AppCompatActivity {
         String pillName = etPill.getText().toString();
         int qty = Integer.parseInt(etQty.getText().toString());
         String unit = etUnit.getText().toString();
-        int duration = Integer.parseInt(etDuration.getText().toString());
+        //int duration = Integer.parseInt(etDuration.getText().toString());
+        int duration=1;
         int id;
         Log.d("Data length:", String.valueOf(pillData.size()));
         Log.d("Data Check for update", pillName + " " + newDate + " " + repeatNo + " " + newRepeatNo);

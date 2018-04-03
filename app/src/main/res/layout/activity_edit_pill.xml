@@ -11,11 +11,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <EditText
             android:id="@+id/etPN"
@@ -55,61 +55,65 @@
             android:text="Start Date"
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="247dp" />
+        <!--
+                <EditText
+                    android:id="@+id/etDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Duration"
+                    android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/etDuration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Duration" />
-<!--
-        <Spinner
-            android:id="@+id/spFrequency"
-            android:gravity="center"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/frequency"
-            />
--->
+                <Spinner
+                    android:id="@+id/spFrequency"
+                    android:gravity="center"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/frequency"
+                    />
+        -->
         <Spinner
             android:id="@+id/spNo"
-            android:gravity="center"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:entries="@array/reminderNo"
-            />
+            android:gravity="center" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/time1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time 1"
-                android:onClick="timeDialogue"/>
+                android:onClick="timeDialogue"
+                android:text="Time 1" />
+
             <Button
                 android:id="@+id/time2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="timeDialogue"
                 android:text="Time 2"
-                android:visibility="gone"
-                android:onClick="timeDialogue"/>
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/time3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="timeDialogue"
                 android:text="Time 3"
-                android:visibility="gone"
-                android:onClick="timeDialogue"/>
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/time4"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="timeDialogue"
                 android:text="Time 4"
-                android:onClick="timeDialogue"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -120,7 +124,7 @@
             android:paddingLeft="10dp"
             android:text="On/Off    " />
 
-<!--
+        <!--
         <Button
             android:id="@+id/Insert"
             android:layout_width="match_parent"

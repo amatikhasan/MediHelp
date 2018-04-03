@@ -65,7 +65,7 @@ public class AddPill extends AppCompatActivity {
         etPill = (EditText) findViewById(R.id.etPN);
         etQty = (EditText) findViewById(R.id.etQty);
         etUnit = (EditText) findViewById(R.id.etUnit);
-        etDuration = (EditText) findViewById(R.id.etDuration);
+        //etDuration = (EditText) findViewById(R.id.etDuration);
         //insert = (Button) findViewById(R.id.Insert);
         btnDate = (Button) findViewById(R.id.btnStartDate);
         time1 = findViewById(R.id.time1);
@@ -401,7 +401,8 @@ public class AddPill extends AppCompatActivity {
         String pillName = etPill.getText().toString();
         int qty = Integer.parseInt(etQty.getText().toString());
         String unit = etUnit.getText().toString();
-        int duration = Integer.valueOf(etDuration.getText().toString());
+        //int duration = Integer.valueOf(etDuration.getText().toString());
+        int duration=1;
         //active = "true";
         int[] code = new int[repeatNo];
 

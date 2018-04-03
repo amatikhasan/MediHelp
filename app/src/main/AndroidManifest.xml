@@ -42,6 +42,7 @@
         <activity android:name=".activities.ShowDoctor" />
         <activity android:name=".activities.FindHospital" />
         <activity android:name=".activities.ShowHospital" />
+        <activity android:name=".activities.PhoneAuthActivity" />
 
         <service android:name=".classes.MyFirebaseMessagingService">
             <intent-filter>

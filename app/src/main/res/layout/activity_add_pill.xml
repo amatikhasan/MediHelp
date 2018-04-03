@@ -53,23 +53,23 @@
             android:text="Start Date"
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="247dp" />
+        <!--
+                <EditText
+                    android:id="@+id/etDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:hint="Duration" />
 
-        <EditText
-            android:id="@+id/etDuration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Duration" />
-<!--
-        <Spinner
-            android:id="@+id/spFrequency"
-            android:gravity="center"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/frequency"
-            />
--->
+                <Spinner
+                    android:id="@+id/spFrequency"
+                    android:gravity="center"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/frequency"
+                    />
+        -->
         <Spinner
             android:id="@+id/spNo"
             android:gravity="center"
