@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.user.surokkha.activities.AddNote">
 
-    <include layout="@layout/toolbar_layout" />
+    <include layout="@layout/toolbar_layout"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        app:cardElevation="2dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,7 +22,7 @@
             android:id="@+id/etNoteTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/corner_white_border"
+            android:background="@drawable/edit_text_style"
             android:hint="Title"
             android:inputType="textPersonName"
             android:padding="5dp" />
@@ -34,9 +33,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:cardElevation="2dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +44,7 @@
             android:id="@+id/etNoteBody"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/corner_white_border"
+            android:background="@drawable/edit_text_style"
             android:ellipsize="end"
             android:ems="10"
             android:gravity="start"
@@ -61,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22" />
+        app:layout_constraintGuide_percent="0.35" />
     <!--
     <Button
         android:id="@+id/btnSaveNote"

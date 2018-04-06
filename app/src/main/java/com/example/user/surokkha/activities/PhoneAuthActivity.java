@@ -93,23 +93,22 @@ public class PhoneAuthActivity extends AppCompatActivity implements
         // Assign views
 
 
-        mStatusText = (TextView) findViewById(R.id.status);
-        mDetailText = (TextView) findViewById(R.id.detail);
+        //mStatusText = (TextView) findViewById(R.id.status);
+        //mDetailText = (TextView) findViewById(R.id.detail);
 
-        mPhoneNumberField = (EditText) findViewById(R.id.field_phone_number);
+        mPhoneNumberField = (EditText) findViewById(R.id.field_phone);
         mVerificationField = (EditText) findViewById(R.id.field_verification_code);
-        smsCode = (Pinview) findViewById(R.id.sms_code);
+        //smsCode = (Pinview) findViewById(R.id.sms_code);
 
         mStartButton = (Button) findViewById(R.id.button_start_verification);
         mVerifyButton = (Button) findViewById(R.id.button_verify_phone);
         mResendButton = (Button) findViewById(R.id.button_resend);
-        mSignOutButton = (Button) findViewById(R.id.sign_out_button);
 
         // Assign click listeners
         mStartButton.setOnClickListener(this);
         mVerifyButton.setOnClickListener(this);
         mResendButton.setOnClickListener(this);
-        mSignOutButton.setOnClickListener(this);
+       // mSignOutButton.setOnClickListener(this);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -387,7 +386,7 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                 // Initialized state, show only the phone number field and start button
                 enableViews(mStartButton, mPhoneNumberField);
                 disableViews(mVerifyButton, mResendButton, mVerificationField);
-                mDetailText.setText(null);
+                //mDetailText.setText(null);
                 break;
             case STATE_CODE_SENT:
                 // Code sent state, show the verification field, the
@@ -499,9 +498,6 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                 break;
             case R.id.button_resend:
                 resendVerificationCode(mPhoneNumberField.getText().toString(), mResendToken);
-                break;
-            case R.id.sign_out_button:
-                signOut();
                 break;
         }
     }

@@ -33,13 +33,12 @@ import java.util.*;
 public class AddPill extends AppCompatActivity {
     EditText etPill, etQty, etUnit, etDuration;
     Button insert, btnDate, time1, time2, time3, time4;
-    Spinner spNo, spFrequency;
+    Spinner spNo,spUnit, spFrequency;
     Switch swActive;
     private static final int Date_id = 0;
     private static final int Time_id = 1;
-    String[] frequency;
-    String[] reminderNo;
-    String date, active="true", days="Everyday";
+    String[] reminderNo,unitArray,frequency;
+    String date, active="true", days="Everyday",unit;
     public static String[] time = new String[4];
     int repeatNo = 1;
     int timeBtnId;
@@ -64,7 +63,7 @@ public class AddPill extends AppCompatActivity {
         swActive = findViewById(R.id.swActive_add);
         etPill = (EditText) findViewById(R.id.etPN);
         etQty = (EditText) findViewById(R.id.etQty);
-        etUnit = (EditText) findViewById(R.id.etUnit);
+        //etUnit = (EditText) findViewById(R.id.etUnit);
         //etDuration = (EditText) findViewById(R.id.etDuration);
         //insert = (Button) findViewById(R.id.Insert);
         btnDate = (Button) findViewById(R.id.btnStartDate);
@@ -73,6 +72,7 @@ public class AddPill extends AppCompatActivity {
         time3 = findViewById(R.id.time3);
         time4 = findViewById(R.id.time4);
         spNo = findViewById(R.id.spNo);
+        spUnit=findViewById(R.id.spUnit);
         //spFrequency = findViewById(R.id.spFrequency);
 
         //getting date time
@@ -82,6 +82,11 @@ public class AddPill extends AppCompatActivity {
         reminderNo = getResources().getStringArray(R.array.reminderNo);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, reminderNo);
         spNo.setAdapter(adapter2);
+
+        //Spinner Adapter
+        unitArray = getResources().getStringArray(R.array.unit);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, unitArray);
+        spUnit.setAdapter(adapter3);
 
         //frequency = getResources().getStringArray(R.array.frequency);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, frequency);
@@ -137,6 +142,18 @@ public class AddPill extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                unit =spUnit.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -400,7 +417,7 @@ public class AddPill extends AppCompatActivity {
     public void addPill() {
         String pillName = etPill.getText().toString();
         int qty = Integer.parseInt(etQty.getText().toString());
-        String unit = etUnit.getText().toString();
+        //String unit = etUnit.getText().toString();
         //int duration = Integer.valueOf(etDuration.getText().toString());
         int duration=1;
         //active = "true";

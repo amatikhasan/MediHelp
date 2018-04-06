@@ -38,19 +38,20 @@ import static android.content.ContentValues.TAG;
 public class EditPill extends AppCompatActivity {
     EditText etPill, etQty, etUnit, etDuration;
     Button insert, btnDate, time1, time2, time3, time4, btnDelete;
-    Spinner spNo, spFrequency;
+    Spinner spNo,spUnit, spFrequency;
     Switch swActive;
     private final int Date_id = 0;
     private final int Time_id = 1;
     Bundle extras;
-    String[] reminderNo,frequency;
-    String pillName, date, newDate, days="Everyday", active, notification = "false";
+    String[] reminderNo,unitArray,frequency;
+    String pillName,unit, date, newDate, days="Everyday", active, notification = "false";
     public String[] time = new String[4];
     int repeatNo, newRepeatNo;
     int timeBtnId;
     Calendar calendar;
     int mYear, mMonth, mDay, mHour, mMinute, year, month, day, hour, minute;
     ArrayList<PillData> pillData = new ArrayList<>();
+    ArrayAdapter<String> unitAdapter;
     public static long dateInMilis, presentTimeMillis;
     public long[] timeInMilis = new long[4];
     DBHelper dbHelper;
@@ -69,7 +70,7 @@ public class EditPill extends AppCompatActivity {
 
         etPill = (EditText) findViewById(R.id.etPN);
         etQty = (EditText) findViewById(R.id.etQty);
-        etUnit = (EditText) findViewById(R.id.etUnit);
+        //etUnit = (EditText) findViewById(R.id.etUnit);
         //etDuration = (EditText) findViewById(R.id.etDuration);
         swActive = findViewById(R.id.swActive);
         //insert = (Button) findViewById(R.id.Insert);
@@ -80,6 +81,7 @@ public class EditPill extends AppCompatActivity {
         time3 = findViewById(R.id.time3);
         time4 = findViewById(R.id.time4);
         spNo = findViewById(R.id.spNo);
+        spUnit=findViewById(R.id.spUnit);
         //spFrequency = findViewById(R.id.spFrequency);
 
         //spinner adapter
@@ -90,6 +92,9 @@ public class EditPill extends AppCompatActivity {
         //frequency = getResources().getStringArray(R.array.frequency);
         // ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, frequency);
         // spFrequency.setAdapter(adapter2);
+        unitArray = getResources().getStringArray(R.array.unit);
+        unitAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.spText, unitArray);
+        spUnit.setAdapter(unitAdapter);
 
 
         //getting extras
@@ -158,6 +163,19 @@ public class EditPill extends AppCompatActivity {
 
             }
         });
+
+        spUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                unit =spUnit.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 /*
         //Spinner onItemSelect
         spFrequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -456,7 +474,12 @@ public class EditPill extends AppCompatActivity {
         //set edit text value
         etPill.setText(pillData.get(0).getPillName());
         etQty.setText(String.valueOf(pillData.get(0).getQty()));
-        etUnit.setText(pillData.get(0).getUnit());
+
+        //set unit spinner value
+        int selectionPosition= unitAdapter.getPosition(pillData.get(0).getUnit());
+        spUnit.setSelection(selectionPosition);
+
+        //etUnit.setText(pillData.get(0).getUnit());
         //etDuration.setText(String.valueOf(pillData.get(0).getDuration()));
         spNo.setSelection(repeatNo - 1);
 
