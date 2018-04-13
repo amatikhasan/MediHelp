@@ -24,10 +24,12 @@ public class AlarmHandler {
     ArrayList<PillData> data = new ArrayList<>();
     long timeInMilliseconds;
 
-    public void startAlarm(Context context, String pillName,String alarmTime,String date,int duration, long time, int code) {
+    public void startAlarm(Context context, String pillName,String alarmTime,String date,int duration, long time, int code,int qty,String unit) {
         Intent aIntent = new Intent(context, AlarmReceiver.class);
         aIntent.putExtra("code", code);
-        aIntent.putExtra("pillName", pillName);
+        aIntent.putExtra("pillName", pillName);;
+        aIntent.putExtra("unit",unit);
+        aIntent.putExtra("quantity",qty);
         aIntent.putExtra("time", alarmTime);
         aIntent.putExtra("date", date);
         aIntent.putExtra("duration", duration);
@@ -48,9 +50,10 @@ public class AlarmHandler {
 
         Log.d("Code from CancelAlarm", String.valueOf(code));
     }
-    public void startAppointmentAlarm(Context context, String doctorName,String alarmTime, long time, int code) {
+    public void startAppointmentAlarm(Context context, String doctorName,String location,String alarmTime, long time, int code) {
         Intent aIntent = new Intent(context, AlarmReceiver.class);
         aIntent.putExtra("doctorName", doctorName);
+        aIntent.putExtra("location",location);
         aIntent.putExtra("time", alarmTime);
         aIntent.putExtra("code", code);
         PendingIntent pIntent = PendingIntent.getBroadcast(context, code, aIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -79,7 +82,7 @@ public class AlarmHandler {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         try {
-            java.util.Date mDate = sdf.parse(date);
+            Date mDate = sdf.parse(date);
             timeInMilliseconds = mDate.getTime();
             Log.d(TAG, "startNextAlarm: " + timeInMilliseconds);
         } catch (ParseException e) {

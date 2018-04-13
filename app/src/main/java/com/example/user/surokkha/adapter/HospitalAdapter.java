@@ -1,8 +1,10 @@
 package com.example.user.surokkha.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.surokkha.R;
+import com.example.user.surokkha.activities.HospitalDetails;
 import com.example.user.surokkha.model.DoctorData;
 import com.example.user.surokkha.model.HospitalData;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHolder> {
     Context contex;
@@ -41,25 +46,20 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         holder.location.setText(obj.getLocation());
         //holder.iv.setImageResource(R.drawable.image);
 
-        /*
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Checking: "+obj.getCode()+" "+obj.getDoctorName()+" "+obj.getDate()+" "+obj.getTime());
+                Log.d(TAG, "Checking: "+obj.getCode());
 
-                Intent intent=new Intent(contex, EditAppointment.class);
-                intent.putExtra("code",obj.getCode());
-                intent.putExtra("doctorName",obj.getDoctorName());
+                Intent intent=new Intent(contex, HospitalDetails.class);
+                intent.putExtra("hospitalName",obj.getHospitalName());
                 intent.putExtra("location",obj.getLocation());
-                intent.putExtra("date",obj.getDate());
-                intent.putExtra("time",obj.getTime());
-                intent.putExtra("note",obj.getNote());
-                intent.putExtra("active",obj.getActive());
+                intent.putExtra("phone",obj.getPhone1());
                 contex.startActivity(intent);
-                Log.d(TAG, obj.getCode()+" "+obj.getDoctorName());
+                Log.d(TAG, obj.getCode()+" "+obj.getHospitalName());
             }
         });
-        */
     }
 
     @Override

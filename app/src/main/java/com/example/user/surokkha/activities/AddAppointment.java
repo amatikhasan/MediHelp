@@ -69,34 +69,6 @@ public class AddAppointment extends AppCompatActivity {
             }
         });
 
-/*
-        //AddPill Button Click
-        btnInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String doctorName = etDoctor.getText().toString();
-                String  location= etLocation.getText().toString();
-                String  note= etNote.getText().toString();
-                active = "true";
-                int code;
-
-                //AddPill into Database
-                AppointmentData da = new AppointmentData(doctorName,location,date,time,note,active);
-                Log.d("Appoint Data Check", doctorName + " " + location +" "+ date + " " + time+" "+active);
-                code =dbHelper.insertAppointmentData(da);
-                Toast.makeText(getApplicationContext(), "Appointment "+code+" inserted for " + time, Toast.LENGTH_SHORT).show();
-                Log.d("Appoint Code Check", String.valueOf(code));
-
-                //Trigger Alarm
-                AlarmHandler alarmHandler = new AlarmHandler();
-                alarmHandler.startAppointmentAlarm(AddAppointment.this, doctorName, timeInMilis, (code+10000));
-                Log.d("Code Check for alarm", String.valueOf(code+10000));
-                Log.d("Time for alarm", String.valueOf(timeInMilis));
-                Intent intent=new Intent(AddAppointment.this,ShowAppointment.class);
-                startActivity(intent);
-            }
-    });
-    */
 
     }
 
@@ -223,11 +195,12 @@ public class AddAppointment extends AppCompatActivity {
 
         //Trigger Alarm
         AlarmHandler alarmHandler = new AlarmHandler();
-        alarmHandler.startAppointmentAlarm(AddAppointment.this, doctorName,time, timeInMilis, (code + 10000));
+        alarmHandler.startAppointmentAlarm(AddAppointment.this, doctorName,location,time, timeInMilis, (code + 10000));
         Log.d("Code Check for alarm", String.valueOf(code + 10000));
         Log.d("Time for alarm", String.valueOf(timeInMilis));
         Intent intent = new Intent(AddAppointment.this, ShowAppointment.class);
         startActivity(intent);
+        finish();
     }
 
     ////set Date, and times

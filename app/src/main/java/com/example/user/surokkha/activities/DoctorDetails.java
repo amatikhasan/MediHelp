@@ -7,36 +7,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.user.surokkha.R;
-import com.example.user.surokkha.adapter.DoctorAdapter;
-import com.example.user.surokkha.adapter.HospitalAdapter;
 import com.example.user.surokkha.classes.SharedPrefManager;
-import com.example.user.surokkha.db.DBExternal;
-import com.example.user.surokkha.model.DoctorData;
-import com.example.user.surokkha.model.HospitalData;
 
-import java.util.ArrayList;
-
-public class ShowHospital extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DoctorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    Toolbar toolbar;
-    RecyclerView recyclerView;
-    TextView emptyHospital;
-    ArrayList<HospitalData> obj = new ArrayList<>();
+    android.support.v7.widget.Toolbar toolbar;
+
+    Bundle extras;
+    String doctorName,degree,speciality,chamber,location,visitingTime,phone;
+    TextView tvDoctorName,tvDegree,tvSpeciality,tvChamber,tvLocation,tvVisitingTime,tvPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_hospital);
+        setContentView(R.layout.activity_doctor_details);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,29 +39,37 @@ public class ShowHospital extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.navigation_viw);
         navigationView.setNavigationItemSelectedListener(this);
 
-        String district=getIntent().getExtras().getString("district");
-        String location=getIntent().getExtras().getString("location");
+        tvDoctorName=findViewById(R.id.tvDDName);
+        tvDegree=findViewById(R.id.tvDDDegree);
+        tvSpeciality=findViewById(R.id.tvDDSpeciality);
+        tvChamber=findViewById(R.id.tvDDChamber);
+        tvLocation=findViewById(R.id.tvDDLocation);
+        tvVisitingTime=findViewById(R.id.tvDDVT);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rv_hospital);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //get Intent Data
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            doctorName = extras.getString("doctorName");
+            degree = extras.getString("degree");
+          speciality= extras.getString("speciality");
+          chamber= extras.getString("chamber");
+          location= extras.getString("location");
+          visitingTime= extras.getString("visitingTime");
+          phone= extras.getString("phone");
+            // btnDelete.setVisibility(View.VISIBLE);
 
-        emptyHospital=findViewById(R.id.emptyHospital);
 
-        DBExternal dbExternal = new DBExternal(getApplicationContext());
-
-        obj = dbExternal.showHospital(district,location);
-        Log.d("Check Db results", "Db obj length: "+obj.size());
-
-        if(obj.size()>0) {
-            HospitalAdapter adapter = new HospitalAdapter(this, obj);
-            recyclerView.setAdapter(adapter);
+            tvDoctorName.setText(doctorName);
+            tvDegree.setText(degree);
+            tvSpeciality.setText(speciality);
+            tvChamber.setText(chamber);
+            tvLocation.setText(location);
+            tvVisitingTime.setText(visitingTime);
         }
-        else {
-            recyclerView.setVisibility(View.GONE);
-            emptyHospital.setVisibility(View.VISIBLE);
-        }
+
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -79,6 +78,7 @@ public class ShowHospital extends AppCompatActivity implements NavigationView.On
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -94,7 +94,7 @@ public class ShowHospital extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
+
         return false;
     }
-
 }

@@ -3,6 +3,7 @@ package com.example.user.surokkha.activities;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -175,42 +176,6 @@ public class AddPill extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-*/
-        /*
-        //AddPill Button Click
-        insert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String pillName = etPill.getText().toString();
-                int qty = Integer.parseInt(etQty.getText().toString());
-                String unit = etUnit.getText().toString();
-                int duration = Integer.valueOf(etDuration.getText().toString());
-                active = "true";
-                int[] code = new int[repeatNo];
-                //code = dbHelper.getPillCode();
-
-                //AddPill into Database
-                for (int i = 0; i < repeatNo; i++) {
-                    PillData ds = new PillData(pillName, qty, unit, duration, days, date, time[i], repeatNo, active);
-                    Log.d("Data Check for pill", pillName + " " + qty + " " + unit + " " + duration + " " + days + " " + date + " " + repeatNo + " " + time[i]);
-                    code[i] = dbHelper.insertPillData(ds);
-                    Toast.makeText(getApplicationContext(), "Pill " + (i + 1) + " inserted for " + time[i], Toast.LENGTH_SHORT).show();
-                    Log.d("Code Check for pill", String.valueOf(code[i]));
-                }
-                Log.d("pill inserted", String.valueOf(code.length));
-                //Trigger Alarm
-                for (int i = 0; i < code.length; i++) {
-                    AlarmHandler alarmHandler = new AlarmHandler();
-                    alarmHandler.startAlarm(AddPill.this, pillName, timeInMilis[i], code[i]);
-                    Log.d("Code Check for alarm", String.valueOf(code[i]));
-                    Log.d("Time for alarm","Pill:"+code[i]+" "+ String.valueOf(timeInMilis[i]));
-
-                    //Intent intent=new Intent(AddPill.this,ShowPill.class);
-                    //startActivity(intent);
-                }
 
             }
         });
@@ -440,7 +405,7 @@ public class AddPill extends AppCompatActivity {
                     timeInMilis[i] += 86400000;
                 }
                 AlarmHandler alarmHandler = new AlarmHandler();
-                alarmHandler.startAlarm(AddPill.this, pillName,time[i],date,duration, timeInMilis[i], code[i]);
+                alarmHandler.startAlarm(AddPill.this, pillName, time[i], date, duration, timeInMilis[i], code[i], qty, unit);
                 Log.d("Code Check for alarm", String.valueOf(code[i]));
                 Log.d("Time for alarm", "Pill:" + code[i] + " " + String.valueOf(timeInMilis[i]));
 
@@ -448,6 +413,10 @@ public class AddPill extends AppCompatActivity {
                 //startActivity(intent);
             }
         }
+
+        Intent intent = new Intent(AddPill.this, ShowPill.class);
+        startActivity(intent);
+        finish();
     }
 
     //get timeMillis Now

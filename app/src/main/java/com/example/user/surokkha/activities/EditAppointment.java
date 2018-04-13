@@ -318,7 +318,7 @@ public class EditAppointment extends AppCompatActivity {
         //Trigger Alarm
         if (active.equals("true")) {
             AlarmHandler alarmHandler = new AlarmHandler();
-            alarmHandler.startAppointmentAlarm(EditAppointment.this, doctorName,time, timeInMilis, (code + 10000));
+            alarmHandler.startAppointmentAlarm(EditAppointment.this, doctorName,location,time, timeInMilis, (code + 10000));
             Log.d("Code Check for alarm", String.valueOf(code + 10000));
             Log.d("Time for alarm", String.valueOf(timeInMilis));
         }
@@ -331,6 +331,7 @@ public class EditAppointment extends AppCompatActivity {
 
         Intent intent=new Intent(EditAppointment.this,ShowAppointment.class);
         startActivity(intent);
+        finish();
     }
 
     public void deleteAppointment() {
@@ -346,6 +347,7 @@ public class EditAppointment extends AppCompatActivity {
         Log.d("Time for alarm", String.valueOf(timeInMilis));
         Intent intent=new Intent(EditAppointment.this,ShowAppointment.class);
         startActivity(intent);
+        finish();
     }
 
     //formate time with AM,PM for button

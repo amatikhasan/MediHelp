@@ -83,8 +83,12 @@ Button b1,b2;
         startActivity(intent);
     }
     public void phoneAuth(View view){
-        //Intent intent=new Intent(this,PhoneAuth.class);
-        //startActivity(intent);
+        Intent intent=new Intent(this,AuthOld.class);
+        startActivity(intent);
+    }
+    public void home(View view){
+        Intent intent=new Intent(this,HomeActivity.class);
+        startActivity(intent);
     }
 }
 

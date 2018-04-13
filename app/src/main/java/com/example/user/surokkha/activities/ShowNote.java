@@ -2,6 +2,7 @@ package com.example.user.surokkha.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.user.surokkha.R;
@@ -27,6 +29,7 @@ public class ShowNote extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     Toolbar toolbar;
+    FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,8 @@ public class ShowNote extends AppCompatActivity implements NavigationView.OnNavi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        fab=findViewById(R.id.fabNote);
+
         DBHelper dbHelper = new DBHelper(getApplicationContext());
 
         String name = getIntent().getStringExtra("name");
@@ -54,6 +59,11 @@ public class ShowNote extends AppCompatActivity implements NavigationView.OnNavi
 
         NoteAdapter adapter = new NoteAdapter(this,obj);
         recyclerView.setAdapter(adapter);
+    }
+
+    public void fabBtn(View view){
+        Intent intent=new Intent(this,AddNote.class);
+        startActivity(intent);
     }
 
     @Override
@@ -80,4 +90,12 @@ public class ShowNote extends AppCompatActivity implements NavigationView.OnNavi
         }
         return false;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        finish();
+    }
+
 }

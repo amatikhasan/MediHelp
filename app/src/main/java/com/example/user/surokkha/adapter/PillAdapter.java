@@ -33,6 +33,7 @@ import static android.content.ContentValues.TAG;
 public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
     Context contex;
     ArrayList<PillData> data;
+    String time;
 
     public PillAdapter(Context contex, ArrayList<PillData> data) {
         this.contex = contex;
@@ -57,7 +58,14 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
         holder.qtyUnit.setText(qtyUnit);
         //holder.unit.setText(obj.getUnit());
         //holder.day.setText(obj.getDay());
-        String time = formatDate(obj.getDate()) + " | " + formatTime(obj.getTime());
+        //String time = formatDate(obj.getDate()) + " | " +obj.getDuration()+" Times";
+        if(obj.getRepeatNo()==1){
+            time = "Everyday" + " | " +obj.getRepeatNo()+" Time";
+        }
+        else {
+            time = "Everyday" + " | " + obj.getRepeatNo() + " Times";
+        }
+
         holder.time.setText(time);
         //holder.iv.setImageResource(R.drawable.image);
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +132,9 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
                 }
                 if (unit.equals("drop")) {
                     ivPill.setImageResource(R.drawable.drop_48);
+                }
+                if (unit.equals("spoon")) {
+                    ivPill.setImageResource(R.drawable.syrup_48);
                 }
             }
 

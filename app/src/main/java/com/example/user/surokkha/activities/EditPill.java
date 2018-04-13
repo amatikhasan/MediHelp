@@ -37,7 +37,8 @@ import static android.content.ContentValues.TAG;
 
 public class EditPill extends AppCompatActivity {
     EditText etPill, etQty, etUnit, etDuration;
-    Button insert, btnDate, time1, time2, time3, time4, btnDelete;
+    Button insert, btnDate, btnTime1, btnTime2, btnTime3, btnTime4, btnDelete;
+    String time1, time2, time3, time4;
     Spinner spNo,spUnit, spFrequency;
     Switch swActive;
     private final int Date_id = 0;
@@ -76,10 +77,10 @@ public class EditPill extends AppCompatActivity {
         //insert = (Button) findViewById(R.id.Insert);
         //btnDelete = findViewById(R.id.btnDeleteAlarm);
         btnDate = (Button) findViewById(R.id.btnStartDate);
-        time1 = findViewById(R.id.time1);
-        time2 = findViewById(R.id.time2);
-        time3 = findViewById(R.id.time3);
-        time4 = findViewById(R.id.time4);
+        btnTime1 = findViewById(R.id.time1);
+        btnTime2 = findViewById(R.id.time2);
+        btnTime3 = findViewById(R.id.time3);
+        btnTime4 = findViewById(R.id.time4);
         spNo = findViewById(R.id.spNo);
         spUnit=findViewById(R.id.spUnit);
         //spFrequency = findViewById(R.id.spFrequency);
@@ -131,28 +132,28 @@ public class EditPill extends AppCompatActivity {
                 newRepeatNo = Integer.parseInt(spNo.getSelectedItem().toString());
                 switch (newRepeatNo) {
                     case 1:
-                        time1.setVisibility(View.VISIBLE);
-                        time2.setVisibility(View.GONE);
-                        time3.setVisibility(View.GONE);
-                        time4.setVisibility(View.GONE);
+                        btnTime1.setVisibility(View.VISIBLE);
+                        btnTime2.setVisibility(View.GONE);
+                        btnTime3.setVisibility(View.GONE);
+                        btnTime4.setVisibility(View.GONE);
                         break;
                     case 2:
-                        time1.setVisibility(View.VISIBLE);
-                        time2.setVisibility(View.VISIBLE);
-                        time3.setVisibility(View.GONE);
-                        time4.setVisibility(View.GONE);
+                        btnTime1.setVisibility(View.VISIBLE);
+                        btnTime2.setVisibility(View.VISIBLE);
+                        btnTime3.setVisibility(View.GONE);
+                        btnTime4.setVisibility(View.GONE);
                         break;
                     case 3:
-                        time1.setVisibility(View.VISIBLE);
-                        time2.setVisibility(View.VISIBLE);
-                        time3.setVisibility(View.VISIBLE);
-                        time4.setVisibility(View.GONE);
+                        btnTime1.setVisibility(View.VISIBLE);
+                        btnTime2.setVisibility(View.VISIBLE);
+                        btnTime3.setVisibility(View.VISIBLE);
+                        btnTime4.setVisibility(View.GONE);
                         break;
                     case 4:
-                        time1.setVisibility(View.VISIBLE);
-                        time2.setVisibility(View.VISIBLE);
-                        time3.setVisibility(View.VISIBLE);
-                        time4.setVisibility(View.VISIBLE);
+                        btnTime1.setVisibility(View.VISIBLE);
+                        btnTime2.setVisibility(View.VISIBLE);
+                        btnTime3.setVisibility(View.VISIBLE);
+                        btnTime4.setVisibility(View.VISIBLE);
                         break;
                 }
                 Log.d("Count Check", String.valueOf(repeatNo));
@@ -195,78 +196,6 @@ public class EditPill extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
-*/
-        /*
-        //AddPill Button Click
-        insert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String pillName = etPill.getText().toString();
-                int qty = Integer.parseInt(etQty.getText().toString());
-                String unit = etUnit.getText().toString();
-                int duration = Integer.parseInt(etDuration.getText().toString());
-                int id;
-                //AddPill into Database
-                for (int i = 0; i < repeatNo; i++) {
-                    id = pillData.get(i).getCode();
-                    PillData ds = new PillData(id, pillName, qty, unit, duration, days, date, time[i], repeatNo, active);
-                    Log.d("Data Check for update", pillName + " " + qty + " " + unit + " " + duration + " " + days + " " + date + " " + repeatNo + " " + time[i]);
-                    dbHelper.updatePillData(ds);
-                    Toast.makeText(getApplicationContext(), "Pill " + (i + 1) + " Updated for " + time[i], Toast.LENGTH_SHORT).show();
-                }
-                Log.d("Code length", String.valueOf(repeatNo));
-                //Trigger Alarm
-                if (active.equals("true")) {
-                    for (int i = 0; i < repeatNo; i++) {
-                        id = pillData.get(i).getCode();
-                        AlarmHandler alarmHandler = new AlarmHandler();
-                        alarmHandler.cancelAlarm(EditPill.this, id);
-                        alarmHandler.startAlarm(EditPill.this, pillName, timeInMilis[i], id);
-                        Log.d("Code Check for alarm", String.valueOf(id));
-                        Log.d("Date for alarm", String.valueOf(date));
-                        Log.d("Time for alarm", String.valueOf(time[i]));
-                        Log.d("TimeMilis for alarm", String.valueOf(timeInMilis[i]));
-                    }
-                }
-                if (active.equals("false")) {
-                    for (int i = 0; i < repeatNo; i++) {
-                        id = pillData.get(i).getCode();
-                        AlarmHandler alarmHandler = new AlarmHandler();
-                        alarmHandler.cancelAlarm(EditPill.this, id);
-                        Log.d("Code for CancelAlarm", String.valueOf(id));
-                        Log.d("Date for CancelAlarm", String.valueOf(date));
-                        Log.d("Time for CancelAlarm", String.valueOf(time[i]));
-                        Log.d("TimeMilis for Cancel", String.valueOf(timeInMilis[i]));
-                    }
-                }
-
-            }
-        });
-        //Delete Button Click
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String pillName = etPill.getText().toString();
-                int id;
-                //AddPill into Database
-                for (int i = 0; i < repeatNo; i++) {
-                    id = pillData.get(i).getCode();
-                    //pillName=pillData.get(0).getPillName();
-                    dbHelper.deleteAlarm(id);
-                    Toast.makeText(getApplicationContext(), "Data " + (i + 1) + " succesfully deleted for " + pillName, Toast.LENGTH_SHORT).show();
-                }
-                //Cancel Alarm
-                for (int i = 0; i < repeatNo; i++) {
-                    id = pillData.get(i).getCode();
-                    AlarmHandler alarmHandler = new AlarmHandler();
-                    alarmHandler.cancelAlarm(EditPill.this, id);
-                    Log.d("Code for delete alarm", String.valueOf(id));
-                    Log.d("Date for delete alarm", String.valueOf(date));
-                    Log.d("Time for delete alarm", String.valueOf(time[i]));
-                    Log.d("Milis for delete alarm", String.valueOf(timeInMilis[i]));
-                }
             }
         });
 */
@@ -393,7 +322,7 @@ public class EditPill extends AppCompatActivity {
                         time[0] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
 
-                    time1.setText(formatTime(time[0]));
+                    btnTime1.setText(formatTime(time[0]));
                     break;
 
                 case R.id.time2:
@@ -417,7 +346,7 @@ public class EditPill extends AppCompatActivity {
                         time[1] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
 
-                    time2.setText(formatTime(time[1]));
+                    btnTime2.setText(formatTime(time[1]));
                     break;
                 case R.id.time3:
 
@@ -432,7 +361,7 @@ public class EditPill extends AppCompatActivity {
                     } else {
                         time[2] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
-                    time3.setText(formatTime(time[2]));
+                    btnTime3.setText(formatTime(time[2]));
                     break;
                 case R.id.time4:
 
@@ -447,7 +376,7 @@ public class EditPill extends AppCompatActivity {
                     } else {
                         time[3] = String.valueOf(hour) + ":" + String.valueOf(minute);
                     }
-                    time4.setText(formatTime(time[3]));
+                    btnTime4.setText(formatTime(time[3]));
                     break;
             }
             //String time1 = String.valueOf(hour) + ":" + String.valueOf(minute);
@@ -483,42 +412,43 @@ public class EditPill extends AppCompatActivity {
         //etDuration.setText(String.valueOf(pillData.get(0).getDuration()));
         spNo.setSelection(repeatNo - 1);
 
+
         if (repeatNo == 1) {
-            time1.setVisibility(View.VISIBLE);
-            time1.setText(formatTime(pillData.get(0).getTime()));
+            btnTime1.setVisibility(View.VISIBLE);
+            btnTime1.setText(formatTime(pillData.get(0).getTime()));
             getTimeMilis(0);
 
         }
         if (repeatNo == 2) {
-            time1.setVisibility(View.VISIBLE);
-            time2.setVisibility(View.VISIBLE);
-            time1.setText(formatTime(pillData.get(0).getTime()));
-            time2.setText(formatTime(pillData.get(1).getTime()));
+            btnTime1.setVisibility(View.VISIBLE);
+            btnTime2.setVisibility(View.VISIBLE);
+            btnTime1.setText(formatTime(pillData.get(0).getTime()));
+            btnTime2.setText(formatTime(pillData.get(1).getTime()));
             getTimeMilis(0);
             getTimeMilis(1);
 
         }
         if (repeatNo == 3) {
-            time1.setVisibility(View.VISIBLE);
-            time2.setVisibility(View.VISIBLE);
-            time3.setVisibility(View.VISIBLE);
-            time1.setText(formatTime(pillData.get(0).getTime()));
-            time2.setText(formatTime(pillData.get(1).getTime()));
-            time3.setText(formatTime(pillData.get(2).getTime()));
+            btnTime1.setVisibility(View.VISIBLE);
+            btnTime2.setVisibility(View.VISIBLE);
+            btnTime3.setVisibility(View.VISIBLE);
+            btnTime1.setText(formatTime(pillData.get(0).getTime()));
+            btnTime2.setText(formatTime(pillData.get(1).getTime()));
+            btnTime3.setText(formatTime(pillData.get(2).getTime()));
             getTimeMilis(0);
             getTimeMilis(1);
             getTimeMilis(2);
 
         }
         if (repeatNo == 4) {
-            time1.setVisibility(View.VISIBLE);
-            time2.setVisibility(View.VISIBLE);
-            time3.setVisibility(View.VISIBLE);
-            time4.setVisibility(View.VISIBLE);
-            time1.setText(formatTime(pillData.get(0).getTime()));
-            time2.setText(formatTime(pillData.get(1).getTime()));
-            time3.setText(formatTime(pillData.get(2).getTime()));
-            time4.setText(formatTime(pillData.get(3).getTime()));
+            btnTime1.setVisibility(View.VISIBLE);
+            btnTime2.setVisibility(View.VISIBLE);
+            btnTime3.setVisibility(View.VISIBLE);
+            btnTime4.setVisibility(View.VISIBLE);
+            btnTime1.setText(formatTime(pillData.get(0).getTime()));
+            btnTime2.setText(formatTime(pillData.get(1).getTime()));
+            btnTime3.setText(formatTime(pillData.get(2).getTime()));
+            btnTime4.setText(formatTime(pillData.get(3).getTime()));
             getTimeMilis(0);
             getTimeMilis(1);
             getTimeMilis(2);
@@ -596,17 +526,20 @@ public class EditPill extends AppCompatActivity {
         finish();
         Intent intent = new Intent(EditPill.this, ShowPill.class);
         startActivity(intent);
+        finish();
     }
 
     public void updatePill() {
         String pillName = etPill.getText().toString();
         int qty = Integer.parseInt(etQty.getText().toString());
-        String unit = etUnit.getText().toString();
+        //String unit = this.unit;
         //int duration = Integer.parseInt(etDuration.getText().toString());
         int duration=1;
         int id;
         Log.d("Data length:", String.valueOf(pillData.size()));
         Log.d("Data Check for update", pillName + " " + newDate + " " + repeatNo + " " + newRepeatNo);
+
+
 
         //AddPill into Database
         //if new repeat is equal to previous repeat,just update the times
@@ -622,7 +555,17 @@ public class EditPill extends AppCompatActivity {
         }
         //if new repeat is more than previous repeat,update previous time and add new time
         if (repeatNo < newRepeatNo) {
+
+            //check time for new repeat
+            for (int i = repeatNo; i < newRepeatNo; i++) {
+               if(time[i]==null){
+                   Toast.makeText(this, "Please select Time", Toast.LENGTH_SHORT).show();
+                   return;
+               }
+            }
+
             Log.d("id-update", "repeatNo<newRepeatNo");
+            //update time for previous repeat
             for (int i = 0; i < repeatNo; i++) {
                 id = pillData.get(i).getCode();
                 PillData ds = new PillData(id, pillName, qty, unit, duration, days, newDate, time[i], newRepeatNo, active);
@@ -670,7 +613,7 @@ public class EditPill extends AppCompatActivity {
                 }
                 AlarmHandler alarmHandler = new AlarmHandler();
                 //alarmHandler.cancelAlarm(EditPill.this, id);
-                alarmHandler.startAlarm(EditPill.this, pillName,time[i],date,duration, timeInMilis[i], id);
+                alarmHandler.startAlarm(EditPill.this, pillName,time[i],date,duration, timeInMilis[i], id,qty,unit);
                 Log.d("Code Check for alarm", String.valueOf(id));
                 Log.d("Date for alarm", String.valueOf(date));
                 Log.d("Time for alarm", String.valueOf(time[i]));
@@ -691,6 +634,7 @@ public class EditPill extends AppCompatActivity {
         finish();
         Intent intent = new Intent(EditPill.this, ShowPill.class);
         startActivity(intent);
+        finish();
     }
 
     //get timeMillis Now

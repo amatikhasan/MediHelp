@@ -62,40 +62,6 @@ public class AddNote extends AppCompatActivity {
 
     }
 
-    /*
-    public void saveNote(View view) {
-        title = etTitle.getText().toString();
-        note = etNote.getText().toString();
-        int code;
-
-        // From calander get the year, month, day, hour, minute
-        Calendar c = Calendar.getInstance();
-
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
-        date = day + "-" + (month + 1) + "-" + year;
-        time = hour + ":" + minute;
-
-        //Add Note into Database
-        Log.d("Appoint Data Check", title + " " + note + " " + date + " " + time);
-        if (!isUpdate) {
-            NoteData dn = new NoteData(title, note, date, time);
-            code = dbHelper.addNote(dn);
-            Toast.makeText(getApplicationContext(), "Note " + code + " Added", Toast.LENGTH_SHORT).show();
-        }
-        if (isUpdate) {
-            NoteData dn = new NoteData(id, title, note, date, time);
-            dbHelper.updateNote(dn);
-            Toast.makeText(getApplicationContext(), "Note " + id + " Updated", Toast.LENGTH_SHORT).show();
-        }
-        Intent intent = new Intent(this, ShowNote.class);
-        startActivity(intent);
-    } */
-
     //For Action Bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,11 +125,13 @@ public class AddNote extends AppCompatActivity {
         }
         Intent intent = new Intent(this, ShowNote.class);
         startActivity(intent);
+        finish();
     }
 
     public void deleteNote() {
         dbHelper.deleteNote(id);
         Intent intent = new Intent(this, ShowNote.class);
         startActivity(intent);
+        finish();
     }
 }

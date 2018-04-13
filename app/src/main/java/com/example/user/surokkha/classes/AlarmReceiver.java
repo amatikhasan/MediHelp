@@ -10,6 +10,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.user.surokkha.activities.AlarmActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,22 +30,45 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String pillName = intent.getExtras().getString("pillName");
+        int qty = intent.getExtras().getInt("qty");
+        String unit = intent.getExtras().getString("unit");
+
         int code = intent.getExtras().getInt("code");
         String time = intent.getExtras().getString("time");
         String date = intent.getExtras().getString("date");
         int duration = intent.getExtras().getInt("duration");
 
         String doctorName = intent.getExtras().getString("doctorName");
+        String location = intent.getExtras().getString("location");
 
         /*if (pillName != null) {
             checkDate(context, code, date, duration);
         }*/
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
-        mediaPlayer.start();
+        Intent i = new Intent();
+        i.setClass(context, AlarmActivity.class);
+        //i.setClassName("com.example.user.surokkha", "com.example.user.surokkha.activities.AlarmActivity");
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (pillName != null) {
+            i.putExtra("time", time);
+            i.putExtra("pillName", pillName);
+            i.putExtra("unit", unit);
+            i.putExtra("quantity", qty);
+            i.putExtra("check", 1);
+
+        } else if (doctorName != null) {
+            i.putExtra("time", time);
+            i.putExtra("doctorName", doctorName);
+            i.putExtra("location", location);
+            i.putExtra("check", 0);
+        }
+        context.startActivity(i);
+
+        //MediaPlayer mediaPlayer = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
+        //mediaPlayer.start();
         //Intent i=new Intent(context,AlarmActivity.class);
         //context.startActivity(i);
-        Toast.makeText(context, "Testing AlarmReceiver:" + pillName + " " + code, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Testing AlarmReceiver:" + pillName +" "+doctorName+" " + code, Toast.LENGTH_SHORT).show();
         Log.d("Alarm Triggered:", pillName + " " + code);
 
     }
@@ -79,7 +104,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         int day = Integer.parseInt(dateParts[0]);
         int month = (Integer.parseInt(dateParts[1])) + 1;
 
-        Log.d(TAG, "check alarm Date: " + day+" "+month);
+        Log.d(TAG, "check alarm Date: " + day + " " + month);
 
         //check month of starting date
         if (month == 2) {
@@ -99,7 +124,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             } else day = (day + duration);
         }
         if (month == 13) {
-            month=0;
+            month = 0;
             year++;
         }
         String newDate = day + "-" + month + "-" + year;

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.surokkha.R;
+import com.example.user.surokkha.activities.DoctorDetails;
 import com.example.user.surokkha.activities.EditAppointment;
 import com.example.user.surokkha.model.AppointmentData;
 import com.example.user.surokkha.model.DoctorData;
@@ -52,25 +53,23 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
         holder.chamber.setText(chamber);
         //holder.iv.setImageResource(R.drawable.image);
 
-        /*
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Checking: "+obj.getCode()+" "+obj.getDoctorName()+" "+obj.getDate()+" "+obj.getTime());
+                Log.d(TAG, "Checking: "+obj.getCode()+" "+obj.getDoctorName());
 
-                Intent intent=new Intent(contex, EditAppointment.class);
-                intent.putExtra("code",obj.getCode());
+                Intent intent=new Intent(contex, DoctorDetails.class);
                 intent.putExtra("doctorName",obj.getDoctorName());
+                intent.putExtra("degree",obj.getDegree());
+                intent.putExtra("speciality",obj.getSpeciality());
+                intent.putExtra("chamber",obj.getChamber());
                 intent.putExtra("location",obj.getLocation());
-                intent.putExtra("date",obj.getDate());
-                intent.putExtra("time",obj.getTime());
-                intent.putExtra("note",obj.getNote());
-                intent.putExtra("active",obj.getActive());
+                intent.putExtra("visitingTime",obj.getVisitingTime());
+                intent.putExtra("phone",obj.getPhone1());
                 contex.startActivity(intent);
                 Log.d(TAG, obj.getCode()+" "+obj.getDoctorName());
             }
         });
-        */
     }
 
     @Override

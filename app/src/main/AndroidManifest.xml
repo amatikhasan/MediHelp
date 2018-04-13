@@ -14,11 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.AddPill" />
         <activity android:name=".activities.ShowPill" />
@@ -43,6 +39,18 @@
         <activity android:name=".activities.FindHospital" />
         <activity android:name=".activities.ShowHospital" />
         <activity android:name=".activities.PhoneAuthActivity" />
+        <activity android:name=".activities.PhoneTestAuth" />
+        <activity android:name=".activities.DoctorDetails" />
+        <activity android:name=".activities.HospitalDetails" />
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.AuthOld"/>
+        <activity android:name=".activities.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service android:name=".classes.MyFirebaseMessagingService">
             <intent-filter>

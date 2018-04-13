@@ -4,22 +4,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.surokkha.R;
-import com.example.user.surokkha.classes.SharedPrefManager;
 import com.goodiebag.pinview.Pinview;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
-public class PhoneAuthActivity extends AppCompatActivity implements
+public class AuthOld extends AppCompatActivity implements
         View.OnClickListener {
 
     private static final String TAG = "PhoneAuthActivity";
@@ -67,29 +63,29 @@ public class PhoneAuthActivity extends AppCompatActivity implements
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
+    private ViewGroup mPhoneNumberViews;
+    private ViewGroup mSignedInViews;
 
-    private EditText mNameField;
-    private EditText mVerificationField;
+    private TextView mStatusText;
+    private TextView mDetailText;
+
     private EditText mPhoneNumberField;
+    private EditText mVerificationField;
+    private EditText mNameField;
+    private EditText mPasswordField;
 
-    int checkTimer = 0;
     public static String userID;
     private Button mStartButton;
     private Button mVerifyButton;
     private Button mResendButton;
-    private String contactno,name;
-    private TextView timer;
-    private TextView tvLogin, tvVerifyCode, tvDRC, tvPLTVC;
+    private Button mSignOutButton;
+    private String contactno;
     private Pinview smsCode;
-
-    private LinearLayout timerLayout;
-    private LinearLayout layoutSuccess;
-    private LinearLayout layoutMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_auth);
+        setContentView(R.layout.activity_auth_old);
 
         // Restore instance state
         if (savedInstanceState != null) {
@@ -101,17 +97,8 @@ public class PhoneAuthActivity extends AppCompatActivity implements
         mPhoneNumberField = (EditText) findViewById(R.id.field_phone_number);
         mVerificationField = (EditText) findViewById(R.id.field_verification_code);
         mNameField = (EditText) findViewById(R.id.field_name);
+        mPasswordField = (EditText) findViewById(R.id.field_password);
         //smsCode = (Pinview) findViewById(R.id.sms_code);
-        timer = (TextView) findViewById(R.id.timer);
-
-        tvLogin = (TextView) findViewById(R.id.tvLogin);
-        tvVerifyCode = (TextView) findViewById(R.id.tvVC);
-        tvDRC = (TextView) findViewById(R.id.tvDRC);
-        tvPLTVC = (TextView) findViewById(R.id.tvPTVC);
-
-        timerLayout = findViewById(R.id.timerLayout);
-        layoutSuccess = findViewById(R.id.layoutSuccess);
-        layoutMain = findViewById(R.id.layoutMain);
 
         mStartButton = (Button) findViewById(R.id.button_start_verification);
         mVerifyButton = (Button) findViewById(R.id.button_verify_phone);
@@ -121,20 +108,13 @@ public class PhoneAuthActivity extends AppCompatActivity implements
         mStartButton.setOnClickListener(this);
         mVerifyButton.setOnClickListener(this);
         mResendButton.setOnClickListener(this);
+//        mSignOutButton.setOnClickListener(this);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-
-
-        //enableViews(mStartButton, mPhoneNumberField, mNameField, mPasswordField,tvPLTVC);
-        //disableViews(mVerifyButton, mResendButton, mVerificationField, timerLayout);
-        //enableViews(layoutSignUp);
-        //disableViews(layoutVerify);
-
-
         // Initialize phone auth callbacks
         // [START phone_auth_callbacks]
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -254,7 +234,7 @@ public class PhoneAuthActivity extends AppCompatActivity implements
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+88" + phoneNumber,        // Phone number to verify
+                "+88"+phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,               // Activity (for callback binding)
@@ -275,7 +255,7 @@ public class PhoneAuthActivity extends AppCompatActivity implements
     private void resendVerificationCode(String phoneNumber,
                                         PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+88" + phoneNumber,        // Phone number to verify
+                "+88"+phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,               // Activity (for callback binding)
@@ -307,31 +287,36 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                                 public void onDataChange(DataSnapshot snapshot) {
                                     if (snapshot.getValue() != null) {
 
-                                        Intent y = new Intent(PhoneAuthActivity.this, MainActivity.class);
+                                        Intent y = new Intent(AuthOld.this, MainActivity.class);
                                         y.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         y.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(y);
 
+                                        SharedPreferences mPreferences;
+
+                                        mPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = mPreferences.edit();
+                                        editor.putString("saveuserid", userID);
+                                        editor.commit();
+
                                         //user exists, do something
-
-                                        //store user id in sharedprefMngr class
-                                        SharedPrefManager.getmInstance(getApplicationContext()).userLogin(userID);
-
                                     } else {
 
-                                        //store user id in sharedprefMngr class
-                                        SharedPrefManager.getmInstance(getApplicationContext()).userLogin(userID);
+                                        SharedPreferences mPreferences;
 
-                                        //if user not exist in databse, then add
-                                        name=mNameField.getText().toString();
+                                        mPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = mPreferences.edit();
+                                        editor.putString("saveuserid", userID);
+                                        editor.commit();
+
                                         contactno = mPhoneNumberField.getText().toString();
                                         //user does not exist, do something else
                                         myRef.child("users").child(userID).setValue("true");
-                                        myRef.child("users").child(userID).child("Name").setValue(name);
+                                        //    myRef.child("users").child(userID).child("Name").setValue("true");
                                         myRef.child("users").child(userID).child("contact").setValue(contactno);
 
 
-                                        Intent y = new Intent(PhoneAuthActivity.this, MainActivity.class);
+                                        Intent y = new Intent(AuthOld.this, MainActivity.class);
                                         y.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         y.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(y);
@@ -399,37 +384,31 @@ public class PhoneAuthActivity extends AppCompatActivity implements
         switch (uiState) {
             case STATE_INITIALIZED:
                 // Initialized state, show only the phone number field and start button
-                enableViews(mStartButton, mPhoneNumberField, mNameField, tvLogin);
-                disableViews(mVerifyButton, mResendButton, mVerificationField, timerLayout, tvDRC, tvVerifyCode, tvPLTVC);
-                //enableViews(layoutSignUp);
-                //disableViews(layoutVerify);
+                enableViews(mStartButton, mPhoneNumberField);
+                disableViews(mVerifyButton, mResendButton, mVerificationField);
+//                mDetailText.setText(null);
                 break;
             case STATE_CODE_SENT:
                 // Code sent state, show the verification field, the
-                //enableViews(mVerifyButton, mResendButton, mPhoneNumberField, mVerificationField);
-                //disableViews(mStartButton);
-
-                if (checkTimer == 0) {
-                    setTimer();
-                }
-
-                Toast.makeText(PhoneAuthActivity.this, "code sent", Toast.LENGTH_LONG).show();
+                enableViews(mVerifyButton, mResendButton, mPhoneNumberField, mVerificationField);
+                disableViews(mStartButton,mNameField,mPasswordField);
+                //  mDetailText.setText(R.string.status_code_sent);
+                Toast.makeText(AuthOld.this, "code sent", Toast.LENGTH_LONG).show();
                 break;
             case STATE_VERIFY_FAILED:
                 // Verification has failed, show all options
-                enableViews(mStartButton, mPhoneNumberField, mNameField, tvLogin);
-                disableViews(mVerifyButton, mResendButton, mVerificationField, timerLayout, tvDRC, tvVerifyCode, tvPLTVC);
+                enableViews(mStartButton, mVerifyButton, mResendButton, mPhoneNumberField,
+                        mVerificationField);
                 //  mDetailText.setText(R.string.status_verification_failed);
-                Toast.makeText(PhoneAuthActivity.this, "verification failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthOld.this, "verification failed", Toast.LENGTH_LONG).show();
                 break;
             case STATE_VERIFY_SUCCESS:
                 // Verification has succeeded, proceed to firebase sign in
-                //disableViews(mStartButton, mVerifyButton, mResendButton, mPhoneNumberField,mVerificationField,timerLayout);
-                disableViews(layoutMain);
-                enableViews(layoutSuccess);
+                disableViews(mStartButton, mVerifyButton, mResendButton, mPhoneNumberField,
+                        mVerificationField);
                 //  mDetailText.setText(R.string.status_verification_succeeded);
 
-                Toast.makeText(PhoneAuthActivity.this, "verification success", Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthOld.this, "verification success", Toast.LENGTH_LONG).show();
 
                 // Set the verification text based on the credential
                 if (cred != null) {
@@ -479,14 +458,12 @@ public class PhoneAuthActivity extends AppCompatActivity implements
     private void enableViews(View... views) {
         for (View v : views) {
             v.setEnabled(true);
-            v.setVisibility(View.VISIBLE);
         }
     }
 
     private void disableViews(View... views) {
         for (View v : views) {
             v.setEnabled(false);
-            v.setVisibility(View.GONE);
         }
     }
 
@@ -498,10 +475,17 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                     return;
                 }
 
-                //mStartButton.setBackgroundColor(pink);
+                mStartButton.setBackgroundColor(pink);
 
                 startPhoneNumberVerification(mPhoneNumberField.getText().toString());
-                setTimer();
+
+                mResendButton.setVisibility(View.VISIBLE);
+                mVerificationField.setVisibility(View.VISIBLE);
+                mVerifyButton.setVisibility(View.VISIBLE);
+                mStartButton.setVisibility(View.INVISIBLE);
+                mPhoneNumberField.setVisibility(View.INVISIBLE);
+
+
                 break;
             case R.id.button_verify_phone:
                 String code = mVerificationField.getText().toString();
@@ -513,65 +497,9 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                 verifyPhoneNumberWithCode(mVerificationId, code);
                 break;
             case R.id.button_resend:
-                //set timer for resent code
-                setTimer();
                 resendVerificationCode(mPhoneNumberField.getText().toString(), mResendToken);
                 break;
+
         }
     }
-
-
-    private void setTimer() {
-        checkTimer = 1;
-        //reset any erros
-        mPhoneNumberField.setError(null);
-
-
-        //get values from phone edit text and pass to countryPicker
-
-        boolean cancel = false;
-        View focusView = null;
-
-        //check if phone number is valid: I would just check the length
-        if (!isPhoneValid(mPhoneNumberField.getText().toString())) {
-
-            focusView = mPhoneNumberField;
-            cancel = true;
-        }
-
-        if (cancel) {
-            //there was an error in the length of phone
-            focusView.requestFocus();
-        } else {
-
-            //show loading screen
-            //enableViews(mVerificationField, mVerifyButton, timerLayout);
-            disableViews(mStartButton, mPhoneNumberField, mNameField, tvLogin);
-            enableViews(mVerifyButton, mResendButton, mVerificationField, timerLayout, tvDRC, tvVerifyCode, tvPLTVC);
-
-            //time to show retry button
-            new CountDownTimer(45000, 1000) {
-                @Override
-                public void onTick(long l) {
-                    timer.setText("0:" + l / 1000 + " s");
-                    mResendButton.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onFinish() {
-                    timer.setText(0 + " s");
-                    mResendButton.startAnimation(AnimationUtils.loadAnimation(PhoneAuthActivity.this, R.anim.slide_from_right));
-                    mResendButton.setVisibility(View.VISIBLE);
-
-                    checkTimer=0;
-                }
-            }.start();
-            //timer ends here
-        }
-    }
-
-    private boolean isPhoneValid(String phone) {
-        return phone.length() > 8;
-    }
-
 }

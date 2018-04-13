@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.user.surokkha.activities.FindDoctor">
+    tools:context="com.example.user.surokkha.activities.HomeActivity">
 
-<include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/toolbar_layout" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<include layout="@layout/content_find_doctor"/>
+        <include layout="@layout/content_home" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_viw"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/nav_menu" />
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_viw"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/nav_menu" />
     </android.support.v4.widget.DrawerLayout>
+
 </LinearLayout>

@@ -130,4 +130,11 @@ public class FindHospital extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        finish();
+    }
+
 }

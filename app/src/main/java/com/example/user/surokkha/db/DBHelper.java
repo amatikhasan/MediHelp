@@ -110,7 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<PillData> showPill() {
         SQLiteDatabase sd = getReadableDatabase();
-        String query = "Select * from " + TABLE_NAME_Pill + " ";
+        String query = "Select * from " + TABLE_NAME_Pill + " group by pillName order by id desc ";
         Cursor cur = sd.rawQuery(query, null);
         ArrayList<PillData> data = new ArrayList<>();
 
@@ -220,7 +220,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public ArrayList<AppointmentData> showAppointment() {
         SQLiteDatabase sd = getReadableDatabase();
-        String query = "Select * from " + TABLE_NAME_Appointment + " ";
+        String query = "Select * from " + TABLE_NAME_Appointment + " order by id desc";
         Cursor cur = sd.rawQuery(query, null);
         ArrayList<AppointmentData> data = new ArrayList<>();
 
@@ -305,7 +305,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<NoteData> showNote() {
         SQLiteDatabase sd = getReadableDatabase();
-        String query = "Select * from " + TABLE_NAME_Note + " ";
+        String query = "Select * from " + TABLE_NAME_Note + " order by id desc";
         Cursor cur = sd.rawQuery(query, null);
         ArrayList<NoteData> data = new ArrayList<>();
 

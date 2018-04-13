@@ -11,7 +11,7 @@
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -22,7 +22,18 @@
            android:id="@+id/rv"
            android:layout_width="match_parent"
            android:layout_height="match_parent"/>
-    </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabPill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:onClick="fabBtn"
+            android:src="@drawable/ic_alarm_on_white_24dp" />
+
+    </RelativeLayout>
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation_viw"
             android:layout_width="match_parent"
